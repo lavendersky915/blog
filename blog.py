@@ -30,10 +30,10 @@ import json
 from tornado.options import define, options
 
 # define("port", default=8887, help="run on the given port", type=int)
-define("mysql_host", default="/Applications/MAMP/tmp/mysql/mysql.sock", help="blog database host")
+define("mysql_host", default="127.0.0.1:3306", help="blog database host")
 define("mysql_database", default="blog", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
-define("mysql_password", default="root", help="blog database password")
+define("mysql_password", default="19052260", help="blog database password")
 
 
 class Application(tornado.web.Application):
