@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<head>
+	<title>Just a sample third party app to demo Blog.py API</title>
+	<style>
+		#title {
+			height:14px;
+			width:400px;
+		}
+		#markdown {
+			height:50px;
+			width:400px;
+		}
+		#response {
+			height:30px;
+			width:300px;
+			border:1px solid red;
+			padding:5px;
+		}
+		
+		#blog_posts {
+			
+			border:1px solid green;
+			margin:5px;
+			padding:5px;
+			height:100px;
+			width:400px;
+			overflow:scroll;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>A simple API demo for blog.py ( from Tornado Framework, Facebook )</h1>
+	<label>Title</label>
+	<br />
+	<input type="text" id="title" name="title" />
+	<br />
+	<label>Content</label>
+	<br />
+	<textarea id="markdown" name="markdown"></textarea>
+	<br />
+	<button id="submit_button">Submit</button>
+
+	<p>Response:</p>
+	<div id="response">
+		Your response appears here
+	</div>
+	
+	<p>Your blog posts appears here....</p>
+	<div id="blog_posts">
+		your blog posts appears here......
+	</div>
+	<button id="refresh">Refresh</button>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script>
+		function AddBlogPost () {
+			console.log("in AddBlogPost");
+			jQuery("#response").empty();
+			var url = "http://localhost:8887/api_v1/get_blog_posts?";
+			var _title = jQuery("#title").val();
+			_title = encodeURIComponent(_title);
+			var _markdown = jQuery("#markdown").val();
+			_markdown = encodeURIComponent(_markdown);
+			var title = 'title='+_title;
+			//var jsonp = '&jsonp=?';
+			var markdown = '&markdown='+_markdown;
+			//url = url+title+markdown;
+			var json_data = {};
+			
+			json_data['title'] = _title;
+			json_data['markdown'] = _markdown;
+			console.log(url);
+			jQuery.post(url, json_data, function(data) {
+				//alert(data);
+				console.log(data.data.success);
+				alert(data.data.success);
+				jQuery("#response").text(data.data.success);
+			});
+			
+			console.log(" ------- >>>>> AddBlogPost");
+		}
+		
+
+		
+		function Refresh () {
+			var url = "http://localhost:8887/api_v1/get_blog_posts";
+			jQuery.getJSON(url, function(data){ 
+				var posts = data.data;
+				jQuery("#blog_posts").empty();
+				jQuery.each(posts, function(post) {
+					console.log(posts[post]);
+					var _post_title = "<h1>"+posts[post]['title']+"</h1>";
+					var _post_content = "<p>"+posts[post]['title']+"</p>";
+					var _post = _post_title+_post_content;
+					jQuery("#blog_posts").append(_post);	
+					
+				})
+			})
+		}
+		
+		jQuery(document).ready(function() {
+			//alert('you suck');
+			
+			jQuery("#submit_button").click(AddBlogPost);
+			jQuery('#refresh').click(Refresh);
+		})
+	</script>
+</body>
+</html>
