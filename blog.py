@@ -14,6 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import sys
 import markdown
 import os.path
 import re
@@ -28,7 +29,7 @@ import json
 
 from tornado.options import define, options
 
-define("port", default=8887, help="run on the given port", type=int)
+# define("port", default=8887, help="run on the given port", type=int)
 define("mysql_host", default="/Applications/MAMP/tmp/mysql/mysql.sock", help="blog database host")
 define("mysql_database", default="blog", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
@@ -265,7 +266,7 @@ class EntryModule(tornado.web.UIModule):
 def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(options.port)
+    http_server.listen(int(sys.argv[1]))
     tornado.ioloop.IOLoop.instance().start()
 
 
