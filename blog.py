@@ -171,11 +171,11 @@ class FeedHandler(BaseHandler):
         self.set_header("Content-Type", "application/atom+xml")
         self.render("feed.xml", entries=entries)
 
-class GoogleHandler():{
+class GoogleHandler():
     def get(self):
         
         self.render("google.html")
-}
+
 
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
