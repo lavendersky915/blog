@@ -209,7 +209,7 @@ class GoogleHandler(BaseHandler):
                 ans = soup.find("div", { "class" : "patent_bibdata" })
                 
 
-                content = content + strip_tags(ans.prettify())
+                content = strip_tags(ans.prettify())
 
             
             pass
