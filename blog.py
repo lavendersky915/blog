@@ -203,14 +203,14 @@ class GoogleHandler(BaseHandler):
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
         
-            soup = BeautifulSoup(crl.fp.getvalue())
+            # soup = BeautifulSoup(crl.fp.getvalue())
             # for each in soup:
 
 
                 # ans = soup.find("div", { "class" : "patent_bibdata" })
                 
 
-                content = content + soup.prettify()
+                # content = content + soup.prettify()
 
             
             # pass
@@ -219,7 +219,7 @@ class GoogleHandler(BaseHandler):
 
         # data = tornado.escape.json_encode(soup.prettify())
         #self.render("google.html", entries="test")
-        self.write("asd")
+        self.write(crl.fp.getvalue())
 
 class MLStripper(HTMLParser):
     def __init__(self):
