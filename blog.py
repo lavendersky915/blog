@@ -211,15 +211,15 @@ class GoogleHandler(BaseHandler):
 
                 content = strip_tags(ans.prettify())
 
-                 self.write(ans.prettify()) 
+                
             # pass
             
         
 
 
         pass
-
-        data = tornado.escape.json_encode(content)
+        self.write(ans.prettify()) 
+        # data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
         # self.write(content)
 
