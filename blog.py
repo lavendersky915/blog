@@ -211,7 +211,7 @@ class GoogleHandler(BaseHandler):
 
                 content = strip_tags(ans.prettify())
 
-            
+                 self.write(ans.prettify()) 
             pass
             
         
