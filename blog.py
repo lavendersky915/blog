@@ -207,23 +207,13 @@ class GoogleHandler(BaseHandler):
             y = yql.Public()
             query = 'select * from http://www.google.com/patents/US6658577';
             result = y.execute(query)
-            #soup = BeautifulSoup(crl.fp.getvalue())
-            #for each in soup:
-
-
-                # ans = soup.find("div", { "class" : "patent_bibdata" })
-                
-
-            #    content = content + soup.prettify()
-
             
-            #pass
             
         pass
 
         # data = tornado.escape.json_encode(soup.prettify())
         #self.render("google.html", entries="test")
-        self.write(result)
+        self.write(result.rows)
 
 class MLStripper(HTMLParser):
     def __init__(self):
