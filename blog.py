@@ -206,7 +206,8 @@ class GoogleHandler(BaseHandler):
             for each in soup:
 
 
-                ans[0] = soup.find("div", { "class" : "patent_bibdata" })
+                ans = soup.find("div", { "class" : "patent_bibdata" })
+                array [0] = ans
 
                 content = strip_tags(ans.prettify())
 
@@ -218,7 +219,7 @@ class GoogleHandler(BaseHandler):
 
         pass
 
-        data = tornado.escape.json_encode(content)
+        data = tornado.escape.json_encode(array [0])
         #self.render("google.html", entries="test")
         self.write(data)
 
