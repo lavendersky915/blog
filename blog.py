@@ -204,7 +204,9 @@ class GoogleHandler(BaseHandler):
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
         
-            
+            y = yql.Public()
+            query = 'select * from http://www.google.com/patents/US6658577';
+            result = y.execute(query)
             #soup = BeautifulSoup(crl.fp.getvalue())
             #for each in soup:
 
@@ -221,7 +223,7 @@ class GoogleHandler(BaseHandler):
 
         # data = tornado.escape.json_encode(soup.prettify())
         #self.render("google.html", entries="test")
-        self.write(crl.fp.getvalue())
+        self.write(result)
 
 class MLStripper(HTMLParser):
     def __init__(self):
