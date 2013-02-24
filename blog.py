@@ -30,6 +30,7 @@ import urllib
 import urllib2
 import pycurl
 import StringIO
+import array
 #import cStringIO
 from tornado.options import define, options
 from HTMLParser import HTMLParser
@@ -215,10 +216,10 @@ class GoogleHandler(BaseHandler):
 
 
         pass
-my_list = [1, 2, 3, 4, 5, "aa", "bb"]
-        data = tornado.escape.json_encode(content)
+        array=["123"]
+        data = tornado.escape.json_encode(array[0])
         #self.render("google.html", entries="test")
-        self.write(my_list[0])
+        self.write(data)
 
 class MLStripper(HTMLParser):
     def __init__(self):
