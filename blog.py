@@ -60,7 +60,7 @@ class Application(tornado.web.Application):
             (r"/sample_external_app", SampleApp)
         ]
         settings = dict(
-            debug=True
+            debug=True,
             blog_title=u"Tornado Blog",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
