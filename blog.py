@@ -191,7 +191,7 @@ class GoogleHandler(BaseHandler):
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
         content = ""
-        for x in xrange(0,1):
+        for x in xrange(0,0):
             html = obj_result['items'][x]['link']
             link =str(html) 
             crl = pycurl.Curl()
