@@ -181,24 +181,8 @@ class FeedHandler(BaseHandler):
 
 class GoogleHandler(BaseHandler):
     def get(self):
-        keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
-        #url = "http://www.google.com/patents/US6658577"
-        result = urllib.urlopen(url).read()
-        #count = result.count('items')*10
-        count = result.count('items')
-        obj_result = tornado.escape.json_decode(result)
         
-        
-            
-        
-
-
-        pass
-
-        data = tornado.escape.json_encode(obj_result)
-        #self.render("google.html", entries="test")
-        self.write(data)
+        self.write("test")
 
 class MLStripper(HTMLParser):
     def __init__(self):
