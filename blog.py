@@ -191,7 +191,7 @@ class GoogleHandler(BaseHandler):
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
         content = ""
-        for x in xrange(0,0):
+        for x in xrange(0,1):
             html = obj_result['items'][x]['link']
             link =str(html) 
             crl = pycurl.Curl()
@@ -204,7 +204,7 @@ class GoogleHandler(BaseHandler):
             crl.perform()               
         
             soup = BeautifulSoup(crl.fp.getvalue())
-            for each in soup:
+            #for each in soup:
 
 
                 # ans = soup.find("div", { "class" : "patent_bibdata" })
@@ -213,7 +213,7 @@ class GoogleHandler(BaseHandler):
                 content = content + soup.prettify()
 
             
-            pass
+            #pass
             
         pass
 
