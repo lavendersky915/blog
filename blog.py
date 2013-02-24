@@ -204,8 +204,7 @@ class GoogleHandler(BaseHandler):
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
         
-            y = yql.Public()
-            res = y.execute("use 'http://yqlblog.net/samples/search.imageweb.xml' as searchimageweb; select title from searchimageweb where query='pizza' limit 3")
+            
             #soup = BeautifulSoup(crl.fp.getvalue())
             #for each in soup:
 
@@ -222,7 +221,7 @@ class GoogleHandler(BaseHandler):
 
         # data = tornado.escape.json_encode(soup.prettify())
         #self.render("google.html", entries="test")
-        self.write(res)
+        self.write(crl.fp.getvalue())
 
 class MLStripper(HTMLParser):
     def __init__(self):
