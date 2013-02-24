@@ -204,7 +204,7 @@ class GoogleHandler(BaseHandler):
             crl.perform()               
         
             soup = BeautifulSoup(crl.fp.getvalue())
-            # for each in soup:
+            for each in soup:
 
 
                 ans = soup.findAll("div", { "class" : "patent_bibdata" })
@@ -213,7 +213,7 @@ class GoogleHandler(BaseHandler):
                 content = content + strip_tags(ans.prettify())
 
             
-            # pass
+            pass
             
         pass
 
