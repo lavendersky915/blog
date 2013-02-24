@@ -191,8 +191,8 @@ class GoogleHandler(BaseHandler):
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
         content = ""
-        # for x in xrange(0,count):
-            html = obj_result['items'][0]['link']
+        for x in xrange(0,1):
+            html = obj_result['items'][x]['link']
             link =str(html) 
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
@@ -202,7 +202,7 @@ class GoogleHandler(BaseHandler):
             crl.setopt(pycurl.URL, link)
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
-         
+        
             soup = BeautifulSoup(crl.fp.getvalue())
             for each in soup:
 
@@ -215,7 +215,7 @@ class GoogleHandler(BaseHandler):
             
             pass
             
-        # pass
+        pass
 
         # data = tornado.escape.json_encode(soup.prettify())
         #self.render("google.html", entries="test")
