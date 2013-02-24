@@ -60,6 +60,7 @@ class Application(tornado.web.Application):
             (r"/sample_external_app", SampleApp)
         ]
         settings = dict(
+            debug=True
             blog_title=u"Tornado Blog",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
@@ -203,7 +204,7 @@ class GoogleHandler(BaseHandler):
             crl.perform()               
         
             soup = BeautifulSoup(crl.fp.getvalue())
-            # for each in soup:
+            for each in soup:
 
 
                 ans = soup.find("div", { "class" : "patent_bibdata" })
@@ -211,17 +212,14 @@ class GoogleHandler(BaseHandler):
 
                 content = strip_tags(ans.prettify())
 
-                
-            # pass
             
-        
-
-
+            pass
+            
         pass
-        self.write(ans.prettify()) 
-        # data = tornado.escape.json_encode(content)
+
+        data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        # self.write(content)
+        self.write(data)
 
 class MLStripper(HTMLParser):
     def __init__(self):
