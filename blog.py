@@ -1,4 +1,3 @@
-#-*- coding: utf-8 -*-
 #!/usr/bin/env python
 #
 # Copyright 2009 Facebook
@@ -15,222 +14,341 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import sys
 import markdown
 import os.path
+import re
 import tornado.auth
 import tornado.database
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-import tornado.escape
-import tornado.httpclient
 import unicodedata
-import re, urlparse
-import urllib,simplejson
-import sys
-
+import json
+import urllib
+import urllib2
+import pycurl
+import StringIO
+#import cStringIO
 from tornado.options import define, options
+from HTMLParser import HTMLParser
+from bs4 import BeautifulSoup
 
 define("port", default=8888, help="run on the given port", type=int)
 define("mysql_host", default="127.0.0.1:3306", help="blog database host")
 define("mysql_database", default="blog", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
-define("mysql_password", default="24479994", help="blog database password")
+define("mysql_password", default="19052260", help="blog database password")
 
-def urlEncodeNonAscii(b):
-    return re.sub('[\x80-\xFF]', lambda c: '%%%02x' % ord(c.group(0)), b)
-
-def iriToUri(iri):
-        parts= urlparse.urlparse(iri)
-        return urlparse.urlunparse(
-            part.encode('idna') if parti==1 else urlEncodeNonAscii(part.encode('utf-8'))
-            for parti, part in enumerate(parts)
-        )
-def unique_result(seq):
-    seen = set()
-    seen_add = seen.add
-    return [ x for x in seq if x not in seen and not seen_add(x)]
 
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", HomeHandler),
-            (r"/environment/", EnvironmentHandler),
-            (r"/userperspective/", UserperspectiveHandler),
-            (r"/embodiment/", EmbodimentHandler),
-            (r"/desire/", DesireHandler),
-            (r"/depth/", DepthHandler),
+            (r"/archive", ArchiveHandler),
+            (r"/feed", FeedHandler),
+            (r"/google", GoogleHandler),
+            (r"/test", TestHandler),
+            (r"/entry/([^/]+)", EntryHandler),
+            (r"/compose", ComposeHandler),
+            (r"/auth/login", AuthLoginHandler),
+            (r"/auth/logout", AuthLogoutHandler),
+            
+            (r"/api_v1/get_blog_posts", ApiBlogPosts),
+            (r"/sample_external_app", SampleApp)
         ]
         settings = dict(
             blog_title=u"Tornado Blog",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
-            xsrf_cookies=True,
-            cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
+            ui_modules={"Entry": EntryModule},
+            xsrf_cookies=False,
+            cookie_secret="123456",
             login_url="/auth/login",
             autoescape=None,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
-
         # Have one global connection to the blog DB across all handlers
         self.db = tornado.database.Connection(
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
 
-
-
 class BaseHandler(tornado.web.RequestHandler):
-    
-    a = "123"
+    @property
+    def db(self):
+        return self.application.db
+
+    def get_current_user(self):
+        user_id = self.get_secure_cookie("user")
+        
+        print "====== the user id is .... "
+        print user_id
+        if not user_id: 
+            return None
+        
+        return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
+
+class SampleApp(BaseHandler):
+    def get(self):
+        self.render('blog_sample.html')
+        
+
+class ApiBlogPosts(BaseHandler):
+    def get(self):
+        _entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 10")
+        #entries = json.dumps(entries)
+        entries_api = []
+        entries = {}
+        for e in _entries:
+            print "====="
+            _e = e
+            _e['updated'] = str(_e['updated'])
+            _e['published'] = str(_e['published'])
+            entries_api.append(_e)
+            print "====="
+        print entries_api
+        self.set_header("Content-Type", "application/json")
+        self.write({'data':entries_api})
+        
+    def post(self):
+        # allows third part apps to create blog posts....
+        self.set_header("Content-Type", "application/json")
+        '''
+            but for simplicity sake, when testing out, will need to login to google account first.....
+        '''
+        user = 1
+        title = self.get_argument("title")
+        text = self.get_argument("markdown")
+        html = markdown.markdown(text)
+
+        print "================================================================"
+        print user
+        print title
+        print text
+        print "================================================================"
+        response = {'success':True}
+        try:
+            slug = unicodedata.normalize("NFKD", title).encode("ascii", "ignore")
+            slug = re.sub(r"[^\w]+", " ", slug)
+            slug = "-".join(slug.lower().strip().split())
+            if not slug: slug = "entry"
+            while True:
+                e = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
+                if not e: break
+                slug += "-2"
+            self.db.execute(
+                "INSERT INTO entries (author_id,title,slug,markdown,html,"
+                "published) VALUES (%s,%s,%s,%s,%s,UTC_TIMESTAMP())",
+                user, title, slug, text, html)
+            self.write({'data':response})   
+        except:
+            response['success'] = False
+            response['error_message'] = "You screwed up!"        
+            self.write({'data':response})   
 
 class HomeHandler(BaseHandler):
     def get(self):
-        self.render("home.html")
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 5")
+        if not entries:
+            self.redirect("/compose")
+            return
+        self.render("home.html", entries=entries)
 
 
-class EnvironmentHandler(BaseHandler):
+class EntryHandler(BaseHandler):
+    def get(self, slug):
+        entry = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
+        if not entry: raise tornado.web.HTTPError(404)
+        self.render("entry.html", entry=entry)
+
+
+class ArchiveHandler(BaseHandler):
     def get(self):
-        environments = []
-        c=self.get_argument("c")
-        n=self.get_argument("n")
-        iri = "http://conceptnet5.media.mit.edu/data/5.1/search?rel=/r/AtLocation&start=/c/zh_TW/"+c+"&limit="+n
-        url=iriToUri(iri)
-        text = urllib.urlopen(url)
-        result = simplejson.load(text)
-        result = result["edges"]
-        for each in result:
-            environments.append(each["endLemmas"])
-        environments = unique_result(environments)
-        result = tornado.escape.json_encode(environments)
-        self.set_header('Content-Type', 'text/javascript')
-        self.write(result)
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC")
+        self.render("archive.html", entries=entries)
 
-class UserperspectiveHandler(BaseHandler):
+
+class FeedHandler(BaseHandler):
     def get(self):
-        users = []
-        c=self.get_argument("c")
-        n=self.get_argument("n")
-        iri = "http://conceptnet5.media.mit.edu/data/5.1/search?rel=/r/Desires&end=/c/zh_TW/"+c+"&limit="+n
-        url=iriToUri(iri)
-        text = urllib.urlopen(url)
-        result = simplejson.load(text)
-        result = result["edges"]
-        for each in result:
-            users.append(each["startLemmas"])
-        users = unique_result(users)
-        result = tornado.escape.json_encode(users)
-        self.set_header('Content-Type', 'text/javascript')
-        self.write(result)
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 10")
+        self.set_header("Content-Type", "application/atom+xml")
+        self.render("feed.xml", entries=entries)
 
-class EmbodimentHandler(BaseHandler):
+class GoogleHandler(BaseHandler):
     def get(self):
-        embodiments = []
-        c=self.get_argument("c")
-        n=self.get_argument("n")
-        iri = "http://conceptnet5.media.mit.edu/data/5.1/search?rel=/r/UsedFor&start=/c/zh_TW/"+c+"&limit="+n
-        url=iriToUri(iri)
-        text = urllib.urlopen(url)
-        result = simplejson.load(text)
-        result = result["edges"]
-        for each in result:
-            iri2 = "http://conceptnet5.media.mit.edu/data/5.1/search?rel=/r/UsedFor&end=/c/zh_TW/"+each["endLemmas"]+"&limit="+n
-            url2=iriToUri(iri2)
-            text2 = urllib.urlopen(url2)
-            result2 = simplejson.load(text2)
-            result2 = result2["edges"]
-            for each2 in result2:
-                embodiments.append(each2["startLemmas"])
-        embodiments = unique_result(embodiments)
-        result = tornado.escape.json_encode(embodiments)
-        self.set_header('Content-Type', 'text/javascript')
-        self.write(result)
-
-class DesireHandler(BaseHandler):
-    def get(self):
-        desires = []
-        c=self.get_argument("c")
-        n=self.get_argument("n")
-        iri = "http://conceptnet5.media.mit.edu/data/5.1/search?rel=/r/Desires&start=/c/zh_TW/"+c+"&limit="+n
-        url=iriToUri(iri)
-        text = urllib.urlopen(url)
-        result = simplejson.load(text)
-        result = result["edges"]
-        for each in result:
-            desires.append(each["endLemmas"])
-        desires = unique_result(desires)
-        result = tornado.escape.json_encode(desires)
-        self.set_header('Content-Type', 'text/javascript')
-        self.write(result)
-
-class DepthHandler(BaseHandler):
-    def get(self):
-        c=self.get_argument("c")
-        #economic = [u"經濟",u"便宜",u"耐用"]
-        #functional = [u"方便",u"實用",u"便利"]
-        #intrinsic = [u"愛",u"情感",u"心靈"]
-        #societal = [u"環保",u"社會",u"政府"]
-        economic = [u"便宜"]
-        functional = [u"實用"]
-        intrinsic = [u"情感"]
-        societal = [u"社會"]
-        e_total = 0
-        f_total = 0
-        i_total = 0
-        s_total = 0
-        for each in economic:
-            iri="http://conceptnet5.media.mit.edu/data/5.1/assoc/c/zh_TW/"+c+"?filter=/c/zh_TW/"+each+"&limit=1"
-            url=iriToUri(iri)
-            text = urllib.urlopen(url)
-            result = simplejson.load(text)
-            if(result["similar"]):
-                score = result["similar"][0][1]
-            else:
-                score = 0
-            e_total = e_total+score
-
-        for each in functional:
-            iri="http://conceptnet5.media.mit.edu/data/5.1/assoc/c/zh_TW/"+c+"?filter=/c/zh_TW/"+each+"&limit=1"
-            url=iriToUri(iri)
-            text = urllib.urlopen(url)
-            result = simplejson.load(text)
-            if(result["similar"]):
-                score = result["similar"][0][1]
-            else:
-                score = 0
-            f_total = f_total+score
-
-        for each in intrinsic:
-            iri="http://conceptnet5.media.mit.edu/data/5.1/assoc/c/zh_TW/"+c+"?filter=/c/zh_TW/"+each+"&limit=1"
-            url=iriToUri(iri)
-            text = urllib.urlopen(url)
-            result = simplejson.load(text)
-            if(result["similar"]):
-                score = result["similar"][0][1]
-            else:
-                score = 0
-            i_total = i_total+score
-
-        for each in societal:
-            iri="http://conceptnet5.media.mit.edu/data/5.1/assoc/c/zh_TW/"+c+"?filter=/c/zh_TW/"+each+"&limit=1"
-            url=iriToUri(iri)
-            text = urllib.urlopen(url)
-            result = simplejson.load(text)
-            if(result["similar"]):
-                score = result["similar"][0][1]
-            else:
-                score = 0
-            s_total = s_total+score
+        keyword = self.get_argument("keyword", default=None, strip=False)
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
+        #url = "http://www.google.com/patents/US6658577"
+        result = urllib.urlopen(url).read()
+        #count = result.count('items')*10
+        count = result.count('items')
+        obj_result = tornado.escape.json_decode(result)
         
-        result_list = [e_total,f_total,i_total,s_total]
-        result = tornado.escape.json_encode(result_list)
-        self.set_header('Content-Type', 'text/javascript')
-        self.write(result)
+        for x in xrange(0,count):
+            html = obj_result['items'][x]['link']
+            link =str(html) 
+            crl = pycurl.Curl()
+            crl.setopt(pycurl.VERBOSE,1)
+            crl.setopt(pycurl.FOLLOWLOCATION, 1)
+            crl.setopt(pycurl.MAXREDIRS, 5)
+            crl.fp = StringIO.StringIO()
+            crl.setopt(pycurl.URL, link)
+            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+            crl.perform()               
+        
+            soup = BeautifulSoup(crl.fp.getvalue())
+            for each in soup:
+
+                ans = soup.find("div", { "class" : "patent_bibdata" })
+                content = strip_tags(ans.prettify())
+            
+            pass
+            
+        
+
+
+        pass
+
+        data = tornado.escape.json_encode(content)
+        #self.render("google.html", entries="test")
+        self.write(ans.prettify())
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+ 
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data() 
+
+class TestHandler(BaseHandler):
+    def get(self):
+    url = "http://www.google.com/"
+
+#buf = cStringIO.StringIO()
+    crl = pycurl.Curl()
+    crl.setopt(pycurl.VERBOSE,1)
+    crl.setopt(pycurl.FOLLOWLOCATION, 1)
+    crl.setopt(pycurl.MAXREDIRS, 5)
+    crl.fp = StringIO.StringIO()
+    crl.setopt(pycurl.URL, url)
+    crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+    crl.perform()
+    #print crl.fp.getvalue()
+    self.write(crl.fp.getvalue())
+        #req = urllib2.Request('http://www.citytalk.tw/cata/')
+     #   response = urllib2.urlopen('http://www.google.com/patents/US6658577')
+      #  the_page = response.read()
+       # self.write(the_page)        
+
+
+class ComposeHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        id = self.get_argument("id", None)
+        entry = None
+        if id:
+            entry = self.db.get("SELECT * FROM entries WHERE id = %s", int(id))
+        self.render("compose.html", entry=entry)
+
+    @tornado.web.authenticated
+    def post(self):
+        id = self.get_argument("id", None)
+        title = self.get_argument("title")
+        text = self.get_argument("markdown")
+        html = markdown.markdown(text)
+        if id:
+            entry = self.db.get("SELECT * FROM entries WHERE id = %s", int(id))
+            if not entry: raise tornado.web.HTTPError(404)
+            slug = entry.slug
+            self.db.execute(
+                "UPDATE entries SET title = %s, markdown = %s, html = %s "
+                "WHERE id = %s", title, text, html, int(id))
+        else:
+            slug = unicodedata.normalize("NFKD", title).encode(
+                "ascii", "ignore")
+            slug = re.sub(r"[^\w]+", " ", slug)
+            slug = "-".join(slug.lower().strip().split())
+            if not slug: slug = "entry"
+            while True:
+                e = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
+                if not e: break
+                slug += "-2"
+            self.db.execute(
+                "INSERT INTO entries (author_id,title,slug,markdown,html,"
+                "published) VALUES (%s,%s,%s,%s,%s,UTC_TIMESTAMP())",
+                self.current_user.id, title, slug, text, html)
+        self.redirect("/entry/" + slug)
+
+
+class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument("openid.mode", None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authenticate_redirect()
+    
+    def _on_auth(self, user):
+        print "========================="
+        print user
+        print "========================="
+        if not user:
+            raise tornado.web.HTTPError(500, "Google auth failed")
+        
+        
+        
+        author = self.db.get("SELECT * FROM authors WHERE email = %s",user["email"])
+        print author
+        if not author:
+            # Auto-create first author
+            any_author = self.db.get("SELECT * FROM authors LIMIT 1")
+            
+            print "================================ any_author"
+            print any_author
+            
+            if not any_author:
+                author_id = self.db.execute(
+                    "INSERT INTO authors (email,name) VALUES (%s,%s)",
+                    user["email"], user["name"])
+            else:
+                self.redirect("/")
+                return
+        else:
+            author_id = author["id"]
+            print "============== author_id "
+            print author_id
+            
+        self.set_secure_cookie("user", str(author_id))
+        self.redirect(self.get_argument("next", "/"))
+
+class AuthLogoutHandler(BaseHandler):
+    def get(self):
+        self.clear_cookie("user")
+        self.redirect(self.get_argument("next", "/"))
+
+
+class EntryModule(tornado.web.UIModule):
+    def render(self, entry):
+        return self.render_string("modules/entry.html", entry=entry)
+
 
 def main():
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(options.port)
+    #http_server.listen(options.port)
+    http_server.listen(int(sys.argv[1]))
     tornado.ioloop.IOLoop.instance().start()
 
 
