@@ -209,6 +209,9 @@ class GoogleHandler(BaseHandler):
 
                 ans = soup.findAll("div", { "class" : "patent_bibdata" })
                 
+                for data in ans:
+                    content = data.parent
+                    pass
                 # for each in soup:
                 # content = content + strip_tags(ans.prettify())
                 # content = ans
