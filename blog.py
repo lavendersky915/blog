@@ -219,7 +219,7 @@ class GoogleHandler(BaseHandler):
 
         pass
 
-        data = tornado.escape.json_encode(content)
+        data = tornado.escape.json_encode(soup)
         #self.render("google.html", entries="test")
         self.write(data)
 
