@@ -181,8 +181,42 @@ class FeedHandler(BaseHandler):
 
 class GoogleHandler(BaseHandler):
     def get(self):
+        keyword = self.get_argument("keyword", default=None, strip=False)
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
+        #url = "http://www.google.com/patents/US6658577"
+        result = urllib.urlopen(url).read()
+        #count = result.count('items')*10
+        count = result.count('items')
+        obj_result = tornado.escape.json_decode(result)
         
-        self.write("test")
+        for x in xrange(0,count):
+            html = obj_result['items'][x]['link']
+            link =str(html) 
+            crl = pycurl.Curl()
+            crl.setopt(pycurl.VERBOSE,1)
+            crl.setopt(pycurl.FOLLOWLOCATION, 1)
+            crl.setopt(pycurl.MAXREDIRS, 5)
+            crl.fp = StringIO.StringIO()
+            crl.setopt(pycurl.URL, link)
+            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+            crl.perform()               
+        
+            soup = BeautifulSoup(crl.fp.getvalue())
+            #for each in soup:
+
+                ans = soup.find("div", { "class" : "patent_bibdata" })
+                content = strip_tags(ans.prettify())
+            
+            #pass
+            
+        
+
+
+        pass
+
+        data = tornado.escape.json_encode(content)
+        #self.render("google.html", entries="test")
+        self.write(ans.prettify())
 
 class MLStripper(HTMLParser):
     def __init__(self):
