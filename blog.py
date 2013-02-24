@@ -209,7 +209,7 @@ class GoogleHandler(BaseHandler):
                 ans = soup.find("div", { "class" : "patent_bibdata" })
                 
 
-                content = strip_tags(ans.prettify())
+                content = content + strip_tags(ans.prettify())
 
             
             pass
@@ -219,7 +219,7 @@ class GoogleHandler(BaseHandler):
 
         pass
 
-        data = tornado.escape.json_encode(soup)
+        data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
         self.write(data)
 
