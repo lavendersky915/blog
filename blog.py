@@ -215,11 +215,11 @@ class GoogleHandler(BaseHandler):
 
 
         pass
-        a[]
+        a[0] = "test"
         b = len(a)
-        data = tornado.escape.json_encode(b )
+        data = tornado.escape.json_encode(b)
         #self.render("google.html", entries="test")
-        self.write(b )
+        self.write(b)
 
 class MLStripper(HTMLParser):
     def __init__(self):
