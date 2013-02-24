@@ -1,40 +1,52 @@
 <html>
 <head>
-	<title>Google Test</title>
+  <title></title>
 </head>
 <body>
-	<script>
-	  (function() {
-	  	var cx = '002101196877436174782:poer_o7saiq';
-	  	var gcse = document.createElement('script');
-	  	gcse.type = 'text/javascript';
-	  	gcse.async = true;
-	  	gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.google.com/cse/cse.js?cx=' + cx;
-	  	var s = document.getElementsByTagName('script')[0];
-	  	s.parentNode.insertBefore(gcse, s);
-	  })();
-	</script>
-	<gcse:search></gcse:search>
+  
+  <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+  <div id="search">
+        <form action="/" id="searchForm">
+          <input type="text" name="keyword">
+          <input type="submit" value="Submit">
+        </form>
+  </div>
+  <div id="content"></div>
+  <script type="text/javascript">
+    $("#searchForm").submit(function(event) {
+     
+      /* stop form from submitting normally */
+      event.preventDefault();
+     
+      /* get some values from elements on the page: */
+      var $form = $(this),
+          term = $form.find('input[name="keyword"]').val(),
+          url = $form.attr('action');
+          
+      $.ajax({
+        url: "/google",
+        data: {
+            keyword: term
+        },
+        success: function(data) {
+    console.log(data);
+//alert("XD");
+//  return false;
+            //var array_asg = 
+            var ary = jQuery.parseJSON(data);
+            
+            for (var i = 0; i < ary.length; i++) {
+              $('#content').append('<div>'+ary[i]+'<div>');
+            };
+            // console.log(obj);
+
+        }
+        });
+    });
+    
+
+    
+    //$("#search").html("Next Step...")
+    </script>
 </body>
 </html>
-
-
-<!-- <html>
-  <head>
-    <title>JSON/Atom Custom Search API Example</title>
-  </head>
-  <body>
-    <div id="content"></div>
-    <script>
-      function hndlr(response) {
-      for (var i = 0; i < response.items.length; i++) {
-        var item = response.items[i];
-        // in production code, item.htmlTitle should have the HTML entities escaped.
-        document.getElementById("content").innerHTML += "<br>" + item.htmlTitle;
-      }
-    }
-    </script>
-    <script src="https://www.googleapis.com/customsearch/v1?key=AIzaSyBxVPuEemXbWHUgcUtU50x_ZroTDW8HjOs&cx=017576662512468239146:omuauf_lfve&q=cars&callback=hndlr">
-    </script>
-  </body>
-</html> -->
