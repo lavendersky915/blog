@@ -190,7 +190,7 @@ class GoogleHandler(BaseHandler):
         #count = result.count('items')*10
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
-        
+        content = ""
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link =str(html) 
@@ -210,7 +210,7 @@ class GoogleHandler(BaseHandler):
                 ans = soup.find("div", { "class" : "patent_bibdata" })
                 
 
-                content = strip_tags(ans.prettify())
+                content = content + strip_tags(ans.prettify())
 
             
             pass
