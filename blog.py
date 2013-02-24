@@ -205,15 +205,15 @@ class GoogleHandler(BaseHandler):
             crl.perform()               
         
             y = yql.Public()
-            query = 'select * from http://www.google.com/patents/US6658577 limit 3';
+            query = 'select * from flickr.photos.search where text="panda" limit 3'
             result = y.execute(query)
 
             
         pass
 
-        # data = tornado.escape.json_encode(soup.prettify())
+         data = tornado.escape.json_encode(result.rows)
         #self.render("google.html", entries="test")
-        self.write(result.rows)
+        self.write(data)
 
 class MLStripper(HTMLParser):
     def __init__(self):
