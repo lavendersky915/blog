@@ -234,19 +234,19 @@ def strip_tags(html):
 
 class TestHandler(BaseHandler):
     def get(self):
-    url = "http://www.google.com/"
+	url = "http://www.google.com/"
 
 #buf = cStringIO.StringIO()
-    crl = pycurl.Curl()
-    crl.setopt(pycurl.VERBOSE,1)
-    crl.setopt(pycurl.FOLLOWLOCATION, 1)
-    crl.setopt(pycurl.MAXREDIRS, 5)
-    crl.fp = StringIO.StringIO()
-    crl.setopt(pycurl.URL, url)
-    crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-    crl.perform()
-    #print crl.fp.getvalue()
-    self.write(crl.fp.getvalue())
+	crl = pycurl.Curl()
+	crl.setopt(pycurl.VERBOSE,1)
+	crl.setopt(pycurl.FOLLOWLOCATION, 1)
+	crl.setopt(pycurl.MAXREDIRS, 5)
+	crl.fp = StringIO.StringIO()
+	crl.setopt(pycurl.URL, url)
+	crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+	crl.perform()
+	#print crl.fp.getvalue()
+ 	self.write(crl.fp.getvalue())
         #req = urllib2.Request('http://www.citytalk.tw/cata/')
      #   response = urllib2.urlopen('http://www.google.com/patents/US6658577')
       #  the_page = response.read()
