@@ -205,9 +205,9 @@ class GoogleHandler(BaseHandler):
             crl.perform()               
         
             y = yql.Public()
-            query = 'select * from http://www.google.com/patents/US6658577';
+            query = 'select * from http://www.google.com/patents/US6658577 limit 3';
             result = y.execute(query)
-            
+
             
         pass
 
