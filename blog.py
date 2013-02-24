@@ -207,7 +207,7 @@ class GoogleHandler(BaseHandler):
 
 
                 ans = soup.find("div", { "class" : "patent_bibdata" })
-                content = strip_tags(ans.prettify())
+                content[len(content)] = strip_tags(ans.prettify())
 
             
             pass
@@ -216,11 +216,10 @@ class GoogleHandler(BaseHandler):
 
 
         pass
-        array=["123"]
-        b = len(array)
-        data = tornado.escape.json_encode(b)
+
+        data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(data)
+        self.write(ans.prettify())
 
 class MLStripper(HTMLParser):
     def __init__(self):
