@@ -217,7 +217,7 @@ class GoogleHandler(BaseHandler):
 
         pass
         array=["123"]
-        b=len(array)
+        b = len(array)
         data = tornado.escape.json_encode(b)
         #self.render("google.html", entries="test")
         self.write(data)
