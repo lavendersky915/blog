@@ -31,6 +31,7 @@ import urllib2
 import pycurl
 import StringIO
 import array
+import yql
 #import cStringIO
 from tornado.options import define, options
 from HTMLParser import HTMLParser
@@ -191,7 +192,7 @@ class GoogleHandler(BaseHandler):
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
         content = ""
-        for x in xrange(0,1):
+        for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link =str(html) 
             crl = pycurl.Curl()
@@ -203,14 +204,16 @@ class GoogleHandler(BaseHandler):
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
         
-            soup = BeautifulSoup(crl.fp.getvalue())
+            y = yql.Public()
+            res = y.execute("use 'http://yqlblog.net/samples/search.imageweb.xml' as searchimageweb; select title from searchimageweb where query='pizza' limit 3")
+            #soup = BeautifulSoup(crl.fp.getvalue())
             #for each in soup:
 
 
                 # ans = soup.find("div", { "class" : "patent_bibdata" })
                 
 
-                content =  soup.prettify()
+            #    content = content + soup.prettify()
 
             
             #pass
@@ -219,7 +222,7 @@ class GoogleHandler(BaseHandler):
 
         # data = tornado.escape.json_encode(soup.prettify())
         #self.render("google.html", entries="test")
-        self.write(content)
+        self.write(res)
 
 class MLStripper(HTMLParser):
     def __init__(self):
