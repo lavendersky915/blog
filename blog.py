@@ -205,7 +205,7 @@ class GoogleHandler(BaseHandler):
             i=0
             for each in soup:
 
-                i++
+                i=i+1
                 ans = soup.find("div", { "class" : "patent_bibdata" })
                 content = strip_tags(ans.prettify())
 
@@ -217,9 +217,9 @@ class GoogleHandler(BaseHandler):
 
         pass
 
-        data = tornado.escape.json_encode(content)
+        data = tornado.escape.json_encode(i)
         #self.render("google.html", entries="test")
-        self.write(i)
+        self.write(data)
 
 class MLStripper(HTMLParser):
     def __init__(self):
