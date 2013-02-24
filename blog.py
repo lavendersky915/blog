@@ -26,14 +26,21 @@ import tornado.options
 import tornado.web
 import unicodedata
 import json
-
+import urllib
+import urllib2
+import pycurl
+import StringIO
+#import cStringIO
 from tornado.options import define, options
+from HTMLParser import HTMLParser
+from bs4 import BeautifulSoup
 
 define("port", default=8888, help="run on the given port", type=int)
 define("mysql_host", default="127.0.0.1:3306", help="blog database host")
 define("mysql_database", default="blog", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
 define("mysql_password", default="19052260", help="blog database password")
+
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -42,6 +49,7 @@ class Application(tornado.web.Application):
             (r"/archive", ArchiveHandler),
             (r"/feed", FeedHandler),
             (r"/google", GoogleHandler),
+            (r"/test", TestHandler),
             (r"/entry/([^/]+)", EntryHandler),
             (r"/compose", ComposeHandler),
             (r"/auth/login", AuthLoginHandler),
@@ -173,8 +181,76 @@ class FeedHandler(BaseHandler):
 
 class GoogleHandler(BaseHandler):
     def get(self):
+        keyword = self.get_argument("keyword", default=None, strip=False)
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
+        #url = "http://www.google.com/patents/US6658577"
+        result = urllib.urlopen(url).read()
+        #count = result.count('items')*10
+        count = result.count('items')
+        obj_result = tornado.escape.json_decode(result)
         
-        self.render("google.html")
+        for x in xrange(0,count):
+            html = obj_result['items'][x]['link']
+            link =str(html) 
+            crl = pycurl.Curl()
+            crl.setopt(pycurl.VERBOSE,1)
+            crl.setopt(pycurl.FOLLOWLOCATION, 1)
+            crl.setopt(pycurl.MAXREDIRS, 5)
+            crl.fp = StringIO.StringIO()
+            crl.setopt(pycurl.URL, link)
+            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+            crl.perform()               
+        
+            soup = BeautifulSoup(crl.fp.getvalue())
+            for each in soup:
+
+                ans = soup.find("div", { "class" : "patent_bibdata" })
+                content = strip_tags(ans.prettify())
+            
+            pass
+            
+        
+
+
+        pass
+
+        data = tornado.escape.json_encode(content)
+        #self.render("google.html", entries="test")
+        self.write(ans.prettify())
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+ 
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data() 
+
+class TestHandler(BaseHandler):
+    def get(self):
+    url = "http://www.google.com/"
+
+#buf = cStringIO.StringIO()
+    crl = pycurl.Curl()
+    crl.setopt(pycurl.VERBOSE,1)
+    crl.setopt(pycurl.FOLLOWLOCATION, 1)
+    crl.setopt(pycurl.MAXREDIRS, 5)
+    crl.fp = StringIO.StringIO()
+    crl.setopt(pycurl.URL, url)
+    crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+    crl.perform()
+    #print crl.fp.getvalue()
+    self.write(crl.fp.getvalue())
+        #req = urllib2.Request('http://www.citytalk.tw/cata/')
+     #   response = urllib2.urlopen('http://www.google.com/patents/US6658577')
+      #  the_page = response.read()
+       # self.write(the_page)        
 
 
 class ComposeHandler(BaseHandler):
