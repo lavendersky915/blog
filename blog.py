@@ -204,19 +204,17 @@ class GoogleHandler(BaseHandler):
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
         
-            
             soup = BeautifulSoup(crl.fp.getvalue())
             for each in soup:
 
-
-                 ans = soup.find("div", { "class" : "patent_bibdata" })
-                
-
-                content = soup.prettify()
-
+                ans = soup.find("div", { "class" : "patent_bibdata" })
+                content = strip_tags(ans.prettify())
             
             pass
             
+        
+
+
         pass
 
          data = tornado.escape.json_encode(content)
