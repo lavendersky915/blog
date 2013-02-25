@@ -214,7 +214,6 @@ class GoogleHandler(BaseHandler):
             
         
 
-
         pass
 
          data = tornado.escape.json_encode(content)
