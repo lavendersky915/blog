@@ -231,7 +231,7 @@ class TestHandler(BaseHandler):
         y = yql.Public()
         query = 'select * from flickr.photos.search where text="panda" limit 3';
         result = y.execute(query)
-        data = tornado.escape.json_encode(result)
+       
         
 
         self.write(data)
@@ -319,18 +319,4 @@ class AuthLogoutHandler(BaseHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
-class EntryModule(tornado.web.UIModule):
-    def render(self, entry):
-        return self.render_string("modules/entry.html", entry=entry)
 
-
-def main():
-    tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(Application())
-    #http_server.listen(options.port)
-    http_server.listen(int(sys.argv[1]))
-    tornado.ioloop.IOLoop.instance().start()
-
-
-if __name__ == "__main__":
-    main()
