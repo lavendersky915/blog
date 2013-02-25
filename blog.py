@@ -246,11 +246,11 @@ class TestHandler(BaseHandler):
     crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
     crl.perform()
     #print crl.fp.getvalue()
-    self.write(crl.fp.getvalue())
-        #req = urllib2.Request('http://www.citytalk.tw/cata/')
-     #   response = urllib2.urlopen('http://www.google.com/patents/US6658577')
-      #  the_page = response.read()
-       # self.write(the_page)        
+    
+    req = urllib2.Request('http://www.citytalk.tw/cata/')
+    response = urllib2.urlopen('http://www.google.com/patents/US6658577')
+    the_page = response.read()
+    self.write(the_page)        
 
 
 class ComposeHandler(BaseHandler):
