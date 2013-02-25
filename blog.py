@@ -228,7 +228,14 @@ def strip_tags(html):
 class TestHandler(BaseHandler):
     def get(self):
         
-        self.write("test")
+        y = yql.Public()
+        query = 'select * from www.google.com limit 3';
+        result = y.execute(query)
+        result.rows 
+        for row in result.rows:
+        
+
+        self.write(row.get('title'))
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
