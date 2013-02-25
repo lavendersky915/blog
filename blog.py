@@ -56,7 +56,8 @@ class Application(tornado.web.Application):
             (r"/auth/logout", AuthLogoutHandler),
 
             (r"/api_v1/get_blog_posts", ApiBlogPosts),
-            (r"/sample_external_app", SampleApp)
+            (r"/sample_external_app", SampleApp),
+            (r"/testing", TestHandler)
         ]
         settings = dict(
             blog_title=u"Tornado Blog",
@@ -231,10 +232,10 @@ class TestHandler(BaseHandler):
         y = yql.Public()
         query = 'select * from flickr.photos.search where text="panda" limit 3';
         result = y.execute(query)
-       
-        
 
-        self.write(data)
+        
+        print "TESTING TESTIN"
+        print result
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
