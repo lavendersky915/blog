@@ -229,13 +229,10 @@ class TestHandler(BaseHandler):
     def get(self):
         
         y = yql.Public()
-        query = 'select * from www.google.com limit 3';
-        result = y.execute(query)
-        result.rows 
-        for row in result.rows:
+        res = y.execute("use 'http://yqlblog.net/samples/search.imageweb.xml' as searchimageweb; select title from searchimageweb where query='pizza' limit 3")
         
 
-        self.write(row.get('title'))
+        self.write(res)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
