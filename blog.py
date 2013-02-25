@@ -41,7 +41,6 @@ define("mysql_database", default="blog", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
 define("mysql_password", default="19052260", help="blog database password")
 
-
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
@@ -54,7 +53,7 @@ class Application(tornado.web.Application):
             (r"/compose", ComposeHandler),
             (r"/auth/login", AuthLoginHandler),
             (r"/auth/logout", AuthLogoutHandler),
-            
+
             (r"/api_v1/get_blog_posts", ApiBlogPosts),
             (r"/sample_external_app", SampleApp)
         ]
@@ -73,7 +72,6 @@ class Application(tornado.web.Application):
         self.db = tornado.database.Connection(
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
-
 class BaseHandler(tornado.web.RequestHandler):
     @property
     def db(self):
@@ -81,19 +79,17 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def get_current_user(self):
         user_id = self.get_secure_cookie("user")
-        
+
         print "====== the user id is .... "
         print user_id
-        if not user_id: 
+        if not user_id:
             return None
-        
+
         return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
 
 class SampleApp(BaseHandler):
     def get(self):
         self.render('blog_sample.html')
-        
-
 class ApiBlogPosts(BaseHandler):
     def get(self):
         _entries = self.db.query("SELECT * FROM entries ORDER BY published "
@@ -111,7 +107,6 @@ class ApiBlogPosts(BaseHandler):
         print entries_api
         self.set_header("Content-Type", "application/json")
         self.write({'data':entries_api})
-        
     def post(self):
         # allows third part apps to create blog posts....
         self.set_header("Content-Type", "application/json")
@@ -142,12 +137,11 @@ class ApiBlogPosts(BaseHandler):
                 "INSERT INTO entries (author_id,title,slug,markdown,html,"
                 "published) VALUES (%s,%s,%s,%s,%s,UTC_TIMESTAMP())",
                 user, title, slug, text, html)
-            self.write({'data':response})   
+            self.write({'data':response})
         except:
             response['success'] = False
-            response['error_message'] = "You screwed up!"        
-            self.write({'data':response})   
-
+            response['error_message'] = "You screwed up!"
+            self.write({'data':response})
 class HomeHandler(BaseHandler):
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY published "
@@ -178,7 +172,6 @@ class FeedHandler(BaseHandler):
                                 "DESC LIMIT 10")
         self.set_header("Content-Type", "application/atom+xml")
         self.render("feed.xml", entries=entries)
-
 class GoogleHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
@@ -188,10 +181,10 @@ class GoogleHandler(BaseHandler):
         #count = result.count('items')*10
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
-        
+
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
-            link =str(html) 
+            link =str(html)
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -199,17 +192,17 @@ class GoogleHandler(BaseHandler):
             crl.fp = StringIO.StringIO()
             crl.setopt(pycurl.URL, link)
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-            crl.perform()               
-        
+            crl.perform()
+
             soup = BeautifulSoup(crl.fp.getvalue())
             for each in soup:
 
                 ans = soup.find("div", { "class" : "patent_bibdata" })
                 content = strip_tags(ans.prettify())
-            
+
             pass
-            
-        
+
+
 
 
         pass
@@ -217,7 +210,6 @@ class GoogleHandler(BaseHandler):
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
         self.write(ans.prettify())
-
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
@@ -226,33 +218,31 @@ class MLStripper(HTMLParser):
         self.fed.append(d)
     def get_data(self):
         return ''.join(self.fed)
- 
+
 def strip_tags(html):
     s = MLStripper()
     s.feed(html)
-    return s.get_data() 
+    return s.get_data()
 
 class TestHandler(BaseHandler):
     def get(self):
-    url = "http://www.google.com/"
+        url = "http://www.google.com/"
 
 #buf = cStringIO.StringIO()
-    crl = pycurl.Curl()
-    crl.setopt(pycurl.VERBOSE,1)
-    crl.setopt(pycurl.FOLLOWLOCATION, 1)
-    crl.setopt(pycurl.MAXREDIRS, 5)
-    crl.fp = StringIO.StringIO()
-    crl.setopt(pycurl.URL, url)
-    crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-    crl.perform()
-    #print crl.fp.getvalue()
-    
-    req = urllib2.Request('http://www.citytalk.tw/cata/')
-    response = urllib2.urlopen('http://www.google.com/patents/US6658577')
-    the_page = response.read()
-    self.write(the_page)        
-
-
+        crl = pycurl.Curl()
+        crl.setopt(pycurl.VERBOSE,1)
+        crl.setopt(pycurl.FOLLOWLOCATION, 1)
+        crl.setopt(pycurl.MAXREDIRS, 5)
+        crl.fp = StringIO.StringIO()
+        crl.setopt(pycurl.URL, url)
+        crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+        crl.perform()
+        #print crl.fp.getvalue()
+        self.write(crl.fp.getvalue())
+        #req = urllib2.Request('http://www.citytalk.tw/cata/')
+     #   response = urllib2.urlopen('http://www.google.com/patents/US6658577')
+      #  the_page = response.read()
+       # self.write(the_page)
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
@@ -290,8 +280,6 @@ class ComposeHandler(BaseHandler):
                 "published) VALUES (%s,%s,%s,%s,%s,UTC_TIMESTAMP())",
                 self.current_user.id, title, slug, text, html)
         self.redirect("/entry/" + slug)
-
-
 class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
     @tornado.web.asynchronous
     def get(self):
@@ -299,25 +287,25 @@ class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
         self.authenticate_redirect()
-    
+
     def _on_auth(self, user):
         print "========================="
         print user
         print "========================="
         if not user:
             raise tornado.web.HTTPError(500, "Google auth failed")
-        
-        
-        
+
+
+
         author = self.db.get("SELECT * FROM authors WHERE email = %s",user["email"])
         print author
         if not author:
             # Auto-create first author
             any_author = self.db.get("SELECT * FROM authors LIMIT 1")
-            
+
             print "================================ any_author"
             print any_author
-            
+
             if not any_author:
                 author_id = self.db.execute(
                     "INSERT INTO authors (email,name) VALUES (%s,%s)",
@@ -329,10 +317,9 @@ class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
             author_id = author["id"]
             print "============== author_id "
             print author_id
-            
+
         self.set_secure_cookie("user", str(author_id))
         self.redirect(self.get_argument("next", "/"))
-
 class AuthLogoutHandler(BaseHandler):
     def get(self):
         self.clear_cookie("user")
