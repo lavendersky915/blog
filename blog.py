@@ -30,7 +30,6 @@ import urllib
 import urllib2
 import pycurl
 import StringIO
-import yql
 #import cStringIO
 from tornado.options import define, options
 from HTMLParser import HTMLParser
