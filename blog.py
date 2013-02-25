@@ -227,26 +227,23 @@ def strip_tags(html):
 
 class TestHandler(BaseHandler):
     def get(self):
-        // Base URI for Web service
-        var yql_base_uri = "http://query.yahooapis.com/v1/yql";
+        url = "http://www.google.com/"
 
-        // Create a variable to make results available
-        // in the global namespace
-        var yql_results = "";
-
-        // Create a YQL query to get geo data for the
-        // San Francisco International Airport
-        var yql_query = "SELECT * from geo.places WHERE text='SFO'";
-
-        // Callback function for handling response data
-        function handler(rsp) {   
-          if(rsp.data){           
-            yql_results = rsp.data;
-          }
-        }
-
+#buf = cStringIO.StringIO()
+        crl = pycurl.Curl()
+        crl.setopt(pycurl.VERBOSE,1)
+        crl.setopt(pycurl.FOLLOWLOCATION, 1)
+        crl.setopt(pycurl.MAXREDIRS, 5)
+        crl.fp = StringIO.StringIO()
+        crl.setopt(pycurl.URL, url)
+        crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+        crl.perform()
+        #print crl.fp.getvalue()
         self.write(crl.fp.getvalue())
-       
+        #req = urllib2.Request('http://www.citytalk.tw/cata/')
+     #   response = urllib2.urlopen('http://www.google.com/patents/US6658577')
+      #  the_page = response.read()
+       # self.write(the_page)
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
