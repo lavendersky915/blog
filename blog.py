@@ -30,8 +30,6 @@ import urllib
 import urllib2
 import pycurl
 import StringIO
-import array
-import yql
 #import cStringIO
 from tornado.options import define, options
 from HTMLParser import HTMLParser
@@ -61,7 +59,6 @@ class Application(tornado.web.Application):
             (r"/sample_external_app", SampleApp)
         ]
         settings = dict(
-            debug=True,
             blog_title=u"Tornado Blog",
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
@@ -191,7 +188,7 @@ class GoogleHandler(BaseHandler):
         #count = result.count('items')*10
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
-        content = ""
+        
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link =str(html) 
@@ -214,9 +211,10 @@ class GoogleHandler(BaseHandler):
             
         
 
+
         pass
 
-         data = tornado.escape.json_encode(content)
+        data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
         self.write(ans.prettify())
 
