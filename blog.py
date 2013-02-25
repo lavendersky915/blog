@@ -56,8 +56,7 @@ class Application(tornado.web.Application):
             (r"/auth/logout", AuthLogoutHandler),
 
             (r"/api_v1/get_blog_posts", ApiBlogPosts),
-            (r"/sample_external_app", SampleApp),
-            (r"/testing", TestHandler)
+            (r"/sample_external_app", SampleApp)
         ]
         settings = dict(
             blog_title=u"Tornado Blog",
@@ -228,14 +227,10 @@ def strip_tags(html):
 
 class TestHandler(BaseHandler):
     def get(self):
+       
         
-        y = yql.Public()
-        query = 'select * from flickr.photos.search where text="panda" limit 3';
-        result = y.execute(query)
 
-        
-        print "TESTING TESTIN"
-        print result
+        self.write("test")
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
