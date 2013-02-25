@@ -204,14 +204,12 @@ class GoogleHandler(BaseHandler):
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()               
         
-            y = yql.Public()
-            query = 'select * from flickr.photos.search where text="panda" limit 3'
-            result = y.execute(query)
+            
 
             
         pass
 
-         data = tornado.escape.json_encode(result.rows)
+         data = tornado.escape.json_encode(crl.fp.getvalue())
         #self.render("google.html", entries="test")
         self.write(data)
 
