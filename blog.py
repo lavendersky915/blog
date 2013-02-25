@@ -231,10 +231,10 @@ class TestHandler(BaseHandler):
         y = yql.Public()
         query = 'select * from flickr.photos.search where text="panda" limit 3';
         result = y.execute(query)
-
+        data = tornado.escape.json_encode(result)
         
 
-        self.write(result)
+        self.write(data)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
