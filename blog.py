@@ -226,9 +226,7 @@ def strip_tags(html):
     return s.get_data()
 
 class TestHandler(BaseHandler):
-    __author__ = "Liang Yuxian Eugene"
-    __website__ = "http://www.liangeugene.com"
-    __description__ = "a simple example demonstrating how YQL is used to scrap website for Kaoru"
+    
 
 
     def execute():
@@ -244,8 +242,9 @@ class TestHandler(BaseHandler):
         JSON = json.loads(data)
 
         for k in JSON['query']['results']['body']['div']['div']:
-           
-        self.write(JSON['query']['results']['body']['div']['div'])
+            print k
+
+        self.write("test")
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
