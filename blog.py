@@ -229,7 +229,7 @@ class TestHandler(BaseHandler):
     
 
 
-    def execute():
+    def get(self):
         import urllib
         import pprint
         import json
