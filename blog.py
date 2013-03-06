@@ -203,6 +203,7 @@ class GoogleHandler(BaseHandler):
                 ans = soup.find("div", { "class" : "about_content" })
                 content = content + strip_tags(ans.prettify())
                 array = content.split('Assignee')
+                arr = array[1].split('Primary')
             pass
 
 
@@ -210,7 +211,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(array[1])
+        self.write(arr[1])
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
