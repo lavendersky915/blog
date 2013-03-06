@@ -242,20 +242,20 @@ class TestHandler(BaseHandler):
 
 
         crl = pycurl.Curl()
-            crl.setopt(pycurl.VERBOSE,1)
-            crl.setopt(pycurl.FOLLOWLOCATION, 1)
-            crl.setopt(pycurl.MAXREDIRS, 5)
-            crl.fp = StringIO.StringIO()
-            crl.setopt(pycurl.URL, Q)
-            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-            crl.perform()
+        crl.setopt(pycurl.VERBOSE,1)
+        crl.setopt(pycurl.FOLLOWLOCATION, 1)
+        crl.setopt(pycurl.MAXREDIRS, 5)
+        crl.fp = StringIO.StringIO()
+        crl.setopt(pycurl.URL, Q)
+        crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+        crl.perform()
 
-        JSON = json.loads(crl.fp.getvalue())
+        #JSON = json.loads()
 
-        for k in JSON['query']['results']['body']['div']['div']:
-            print k
+        #for k in JSON['query']['results']['body']['div']['div']:
+        #    print k
 
-        self.write(JSON)
+        self.write(crl.fp.getvalue())
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
