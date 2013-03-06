@@ -226,7 +226,7 @@ class Lavender_STPI(BaseHandler):
 
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
-            link =str(html)
+            link ="http://iknow.stpi.narl.org.tw/Post/PostList.aspx?CateID=5&tid=41"
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -247,9 +247,9 @@ class Lavender_STPI(BaseHandler):
             pass
         pass
 
-        data = tornado.escape.json_encode(ass)
+        data = tornado.escape.json_encode(crl.fp.getvalue())
         #self.render("google.html", entries="test")
-        self.write(ass[1])
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
