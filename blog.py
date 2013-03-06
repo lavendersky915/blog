@@ -210,7 +210,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(content)
+        self.write(array[1])
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
