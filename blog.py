@@ -201,7 +201,7 @@ class GoogleHandler(BaseHandler):
 
                 ans = soup.find("div", { "class" : "about_content" })
                 content = content + strip_tags(ans.prettify())
-
+                content.split('Assignee :')
             pass
 
 
