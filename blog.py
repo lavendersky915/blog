@@ -187,7 +187,7 @@ class GoogleHandler(BaseHandler):
 
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
-            link =str(html)
+            link ="http://www.google.com/patents/US8328392"
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -210,7 +210,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(array[1])
+        self.write(content)
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
