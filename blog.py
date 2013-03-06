@@ -50,7 +50,6 @@ class Application(tornado.web.Application):
             (r"/archive", ArchiveHandler),
             (r"/feed", FeedHandler),
             (r"/google", GoogleHandler),
-            (r"/stpi", Lavender_STPI),
             (r"/test", TestHandler),
             (r"/entry/([^/]+)", EntryHandler),
             (r"/compose", ComposeHandler),
@@ -215,41 +214,14 @@ class GoogleHandler(BaseHandler):
 
 class Lavender_STPI(BaseHandler):
     def get(self):
-        keyword = self.get_argument("keyword", default=None, strip=False)
+        
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
-        #url = "http://www.google.com/patents/US6658577"
+       
         result = urllib.urlopen(url).read()
-        #count = result.count('items')*10
-        count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
-        content=""
-
-        for x in xrange(0,count):
-            html = obj_result['items'][x]['link']
-            link ="http://iknow.stpi.narl.org.tw/Post/PostList.aspx?CateID=5&tid=41"
-            crl = pycurl.Curl()
-            crl.setopt(pycurl.VERBOSE,1)
-            crl.setopt(pycurl.FOLLOWLOCATION, 1)
-            crl.setopt(pycurl.MAXREDIRS, 5)
-            crl.fp = StringIO.StringIO()
-            crl.setopt(pycurl.URL, link)
-            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-            crl.perform()
-
-            soup = BeautifulSoup(crl.fp.getvalue())
-            for x in xrange(0,1):
-
-                ans = soup.find("div", { "class" : "about_content" })
-                content = content + strip_tags(ans.prettify())
-                array = content.split('Assignee')
-                arr = array[1].split('Primary')
-                ass = arr[0].split(':')
-            pass
-        pass
-
-        data = tornado.escape.json_encode(crl.fp.getvalue())
-        #self.render("google.html", entries="test")
-        self.write(data)
+        
+        data = tornado.escape.json_encode(obj_result)
+        self.write(result)
     
 
 class MLStripper(HTMLParser):
