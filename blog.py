@@ -215,7 +215,7 @@ class GoogleHandler(BaseHandler):
 
 class Lavender_STPI(BaseHandler):
     def get(self):
-        
+        keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
        
         result = urllib.urlopen(url).read()
