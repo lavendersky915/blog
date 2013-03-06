@@ -217,12 +217,11 @@ class Lavender_STPI(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
-       
         result = urllib.urlopen(url).read()
         obj_result = tornado.escape.json_decode(result)
         
         data = tornado.escape.json_encode(obj_result)
-        self.write(result)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
