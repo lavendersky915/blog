@@ -204,7 +204,7 @@ class GoogleHandler(BaseHandler):
                 content = content + strip_tags(ans.prettify())
                 array = content.split('Assignee')
                 arr = array[1].split('Primary')
-                ass = arr[0].split(' ')
+                ass = arr[0].split(':')
             pass
 
 
@@ -212,7 +212,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(ass)
         #self.render("google.html", entries="test")
-        self.write(data)
+        self.write(ass[1])
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
