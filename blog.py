@@ -250,12 +250,12 @@ class TestHandler(BaseHandler):
         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
         crl.perform()
 
-        #JSON = json.loads()
+        JSON = json.loads(crl.fp.getvalue())
 
-        #for k in JSON['query']['results']['body']['div']['div']:
-        #    print k
+        for k in JSON['query']['results']['body']['div']['div']:
+            print k
 
-        self.write(crl.fp.getvalue())
+        self.write(k)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
