@@ -197,14 +197,12 @@ class GoogleHandler(BaseHandler):
             crl.perform()
 
             soup = BeautifulSoup(crl.fp.getvalue())
-            for x in xrange(0,2):
+            for each in soup:
 
                 ans = soup.find("div", { "class" : "about_content" })
                 content = content + strip_tags(ans.prettify())
 
             pass
-
-
 
 
         pass
