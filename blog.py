@@ -183,7 +183,7 @@ class GoogleHandler(BaseHandler):
         count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
 
-        for x in xrange(0,5):
+        for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link =str(html)
             crl = pycurl.Curl()
@@ -196,7 +196,7 @@ class GoogleHandler(BaseHandler):
             crl.perform()
 
             soup = BeautifulSoup(crl.fp.getvalue())
-            for each in soup:
+            for x in xrange(0,2):
 
                 ans = soup.find("div", { "class" : "patent_bibdata" })
                 content = strip_tags(ans.prettify())
@@ -208,7 +208,7 @@ class GoogleHandler(BaseHandler):
 
         pass
 
-        data = tornado.escape.json_encode(crl.fp.getvalue())
+        data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
         self.write(data)
 class MLStripper(HTMLParser):
