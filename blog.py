@@ -50,6 +50,7 @@ class Application(tornado.web.Application):
             (r"/archive", ArchiveHandler),
             (r"/feed", FeedHandler),
             (r"/google", GoogleHandler),
+            (r"/stpi", Lavender_STPI),
             (r"/test", TestHandler),
             (r"/entry/([^/]+)", EntryHandler),
             (r"/compose", ComposeHandler),
