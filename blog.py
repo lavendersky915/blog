@@ -237,18 +237,25 @@ class TestHandler(BaseHandler):
         Q = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.nccu.edu.tw%22&format=json&diagnostics=true"
 
 
-        u = urllib.urlopen(Q)
-        data = u.read()
+        #u = urllib.urlopen(Q)
+        #data = u.read()
 
 
-        
+        crl = pycurl.Curl()
+        crl.setopt(pycurl.VERBOSE,1)
+        crl.setopt(pycurl.FOLLOWLOCATION, 1)
+        crl.setopt(pycurl.MAXREDIRS, 5)
+        crl.fp = StringIO.StringIO()
+        crl.setopt(pycurl.URL, Q)
+        crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+        crl.perform()
 
-        JSON = json.loads(data)
+        #JSON = json.loads()
 
         #for k in JSON['query']['results']['body']['div']['div']:
         #    print k
 
-        self.write(JSON)
+        self.write(crl.fp.getvalue())
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
