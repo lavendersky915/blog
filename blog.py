@@ -187,7 +187,7 @@ class GoogleHandler(BaseHandler):
 
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
-            link ="http://www.google.com/patents/US8328392"
+            link ="str(html)"
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -199,9 +199,11 @@ class GoogleHandler(BaseHandler):
 
             soup = BeautifulSoup(crl.fp.getvalue())
             for x in xrange(0,1):
+
                 ans = soup.find("div", { "class" : "about_content" })
                 content = content + strip_tags(ans.prettify())
                 array = content.split('Assignee')
+                arr = content.split('Examiner ')
             pass
 
 
@@ -209,7 +211,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(array[1])
+        self.write(arr[0])
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
