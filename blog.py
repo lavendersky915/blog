@@ -246,7 +246,7 @@ class TestHandler(BaseHandler):
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
             crl.setopt(pycurl.MAXREDIRS, 5)
             crl.fp = StringIO.StringIO()
-            crl.setopt(pycurl.URL, link)
+            crl.setopt(pycurl.URL, Q)
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()
 
