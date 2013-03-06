@@ -210,7 +210,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(ans.prettify())
+        self.write(crl.fp.getvalue())
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
@@ -234,7 +234,7 @@ class TestHandler(BaseHandler):
         import pprint
         import json
         # build Q using the link here: http://developer.yahoo.com/yql/console/?q=select%20*%20from%20local.search%20where%20zip%3D'94085'%20and%20query%3D'pizza'#h=select%20*%20from%20html%20where%20url%3D%22http%3A//www.nccu.edu.tw%22
-        Q = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.google.com%22&format=json&diagnostics=true"
+        Q = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.nccu.edu.tw%22&format=json&diagnostics=true"
 
 
         #u = urllib.urlopen(Q)
