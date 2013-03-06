@@ -244,7 +244,7 @@ class TestHandler(BaseHandler):
         for k in JSON['query']['results']['body']['div']['div']:
             print k
 
-        self.write(k)
+        self.write(JSON)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
