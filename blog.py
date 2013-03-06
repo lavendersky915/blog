@@ -234,7 +234,7 @@ class TestHandler(BaseHandler):
         import pprint
         import json
         # build Q using the link here: http://developer.yahoo.com/yql/console/?q=select%20*%20from%20local.search%20where%20zip%3D'94085'%20and%20query%3D'pizza'#h=select%20*%20from%20html%20where%20url%3D%22http%3A//www.nccu.edu.tw%22
-        Q = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.google.com%2Fpatents%2FUS6658577%22&format=json&diagnostics=true"
+        Q = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.google.com/patents/US6658577%22&format=json&diagnostics=true"
 
 
         #u = urllib.urlopen(Q)
