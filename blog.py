@@ -31,6 +31,7 @@ import urllib2
 import pycurl
 import StringIO
 import yql
+import array
 #import cStringIO
 from tornado.options import define, options
 from HTMLParser import HTMLParser
@@ -201,7 +202,7 @@ class GoogleHandler(BaseHandler):
 
                 ans = soup.find("div", { "class" : "about_content" })
                 content = content + strip_tags(ans.prettify())
-                content.split('Assignee :')
+                array = content.split('Assignee :')
             pass
 
 
@@ -209,7 +210,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(content)
         #self.render("google.html", entries="test")
-        self.write(content)
+        self.write(array[1])
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
