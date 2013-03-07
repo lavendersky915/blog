@@ -218,16 +218,16 @@ class Lavender_STPI(BaseHandler):
         keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
         result = urllib.urlopen(url).read()
-        count = result.count('kind')
+        count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
         test = ""
         for x in xrange(1,count):
-            test = test + obj_result['items'][x]['title']
-        pass
+            test = obj_result['items'][0]['kind']
+            pass
         
         
         data = tornado.escape.json_encode(test)
-        self.write(obj_result['items'][1]['title'])
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
