@@ -220,9 +220,10 @@ class Lavender_STPI(BaseHandler):
         result = urllib.urlopen(url).read()
         obj_result = tornado.escape.json_decode(result)
         test = obj_result['items'][0]['kind']
+        count = result.count(test)
         
         data = tornado.escape.json_encode(obj_result)
-        self.write(data)
+        self.write(count)
     
 
 class MLStripper(HTMLParser):
