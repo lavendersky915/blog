@@ -222,7 +222,7 @@ class Lavender_STPI(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         test = ""
         for x in xrange(1,count):
-            test = test + obj_result['items'][x]['kind']
+            test = test + obj_result['items'][x]['title']
             pass
         
         
