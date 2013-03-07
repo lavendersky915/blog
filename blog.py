@@ -218,11 +218,11 @@ class Lavender_STPI(BaseHandler):
         keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
         result = urllib.urlopen(url).read()
-        count = result.count(['kind'])
+        count = result.count('kind') -1
         obj_result = tornado.escape.json_decode(result)
         test = obj_result['items'][0]['kind']
         
-        data = tornado.escape.json_encode(count)
+        data = tornado.escape.json_encode(result)
         self.write(data)
     
 
