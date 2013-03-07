@@ -223,11 +223,11 @@ class Lavender_STPI(BaseHandler):
         test = ""
         for x in xrange(1,count):
             test = test + obj_result['items'][x]['title']
-            pass
+        pass
         
         
         data = tornado.escape.json_encode(test)
-        self.write(test)
+        self.write(obj_result['items'][x]['title'])
     
 
 class MLStripper(HTMLParser):
