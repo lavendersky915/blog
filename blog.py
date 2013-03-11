@@ -223,7 +223,7 @@ class Lavender_STPI(BaseHandler):
         test = ""
         for x in xrange(0,count):
             
-            if "告" in obj_result['items'][x]['title']:
+            if "a" in obj_result['items'][x]['title']:
                 test = test + obj_result['items'][x]['title'] + "<br>"
             pass
             
