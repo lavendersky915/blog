@@ -222,9 +222,10 @@ class Lavender_STPI(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         test = ""
         for x in xrange(0,count):
-            text = unicode ( 'a', "utf-8" )
-            compare = unicode (obj_result['items'][x]['title'] , "utf-8") 
-            if text in compare:
+            word = '告'
+            text = str(word)
+            
+            if text in obj_result['items'][x]['title']:
                 test = test + obj_result['items'][x]['title'] + "<br>"
             pass
             
