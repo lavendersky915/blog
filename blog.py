@@ -223,7 +223,7 @@ class Lavender_STPI(BaseHandler):
         test = ""
         for x in xrange(0,count):
             word = '\xe5\x91\x8a'
-            if text in obj_result['items'][x]['title']:
+            if word in obj_result['items'][x]['title']:
                 test = test + obj_result['items'][x]['title'] + "<br>"
             pass
             
