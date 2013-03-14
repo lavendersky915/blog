@@ -221,6 +221,7 @@ class Lavender_STPI(BaseHandler):
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
         test = ""
+        w = '中文'
         for x in xrange(0,count):
             
             if "a" in obj_result['items'][x]['title']:
@@ -231,7 +232,7 @@ class Lavender_STPI(BaseHandler):
         
         
         data = tornado.escape.json_encode(test)
-        self.write(test)
+        self.write(w)
     
 
 class MLStripper(HTMLParser):
