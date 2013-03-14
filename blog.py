@@ -221,7 +221,7 @@ class Lavender_STPI(BaseHandler):
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
         test = ""
-        word = "告"
+        word = unicode('告', 'utf-8')
         for x in xrange(0,count):
 
             if word in obj_result['items'][x]['title']:
