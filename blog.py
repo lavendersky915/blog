@@ -224,15 +224,13 @@ class Lavender_STPI(BaseHandler):
         word = unicode('告', 'utf-8')
         for x in xrange(0,count):
 
-            if word in obj_result['items'][x]['title']:
-                test = test + obj_result['items'][x]['title'] + "<br>"
-            pass
+            
             
             pass
         
         
         data = tornado.escape.json_encode(word)
-        self.write(data)
+        self.write(word)
     
 
 class MLStripper(HTMLParser):
