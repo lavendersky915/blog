@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2009 Facebook
 #
@@ -221,7 +222,7 @@ class Lavender_STPI(BaseHandler):
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
         test = ""
-        w = '中文'
+        w = '告'
         for x in xrange(0,count):
             
             if "a" in obj_result['items'][x]['title']:
