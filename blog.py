@@ -225,9 +225,9 @@ class Lavender_STPI(BaseHandler):
         w = unicode('告', 'utf-8')
         for x in xrange(0,count):
             
-            if  w in obj_result['items'][x]['title']:
+           # if  w in obj_result['items'][x]['title']:
                 test = test + obj_result['items'][x]['title'] + "<br>"
-            pass
+            #pass
             
             pass
         
