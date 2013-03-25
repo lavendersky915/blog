@@ -246,7 +246,6 @@ class Lavender_STPI(BaseHandler):
                 if tablename in content:
                     t = t+1 
                 pass
-
             pass
             
             pass
