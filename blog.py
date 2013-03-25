@@ -225,7 +225,7 @@ class Lavender_STPI(BaseHandler):
         litigation=0
         t = 0
         w = unicode('告', 'utf-8')
-        tablename = unicode('專', 'utf-8')
+        name = unicode('訴訟名稱', 'utf-8')
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
@@ -242,7 +242,7 @@ class Lavender_STPI(BaseHandler):
                 crl.perform()
                 a = crl.fp.getvalue()
                 content = strip_tags(a)
-
+                litiname = content.split(name)
                 
             pass
             
@@ -250,7 +250,7 @@ class Lavender_STPI(BaseHandler):
         
         
         data = tornado.escape.json_encode(t)
-        self.write(content)
+        self.write(litiname[1])
     
 
 class MLStripper(HTMLParser):
