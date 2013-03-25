@@ -223,7 +223,7 @@ class Lavender_STPI(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         test = ""
         litigation=0
-        ttt = ""
+        ttt = 0
         w = unicode('告', 'utf-8')
         tablename = unicode('專利訴訟案件基本資料', 'utf-8')
         for x in xrange(0,count):
@@ -243,7 +243,7 @@ class Lavender_STPI(BaseHandler):
                 a = crl.fp.getvalue()
                 content = strip_tags(a)
                 if tablename in content:
-                    ttt= 'y'
+                    ttt = ttt+1 
                 pass
 
             pass
