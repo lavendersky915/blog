@@ -223,7 +223,7 @@ class Lavender_STPI(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         test = ""
         litigation=0
-        ttt = 0
+        t = 0
         w = unicode('告', 'utf-8')
         tablename = unicode('專', 'utf-8')
         for x in xrange(0,count):
@@ -244,7 +244,7 @@ class Lavender_STPI(BaseHandler):
                 content = strip_tags(a)
 
                 if tablename in content:
-                    ttt = ttt+1 
+                    t = t+1 
                 pass
 
             pass
@@ -252,7 +252,7 @@ class Lavender_STPI(BaseHandler):
             pass
         
         
-        data = tornado.escape.json_encode(ttt)
+        data = tornado.escape.json_encode(t)
         self.write(data)
     
 
