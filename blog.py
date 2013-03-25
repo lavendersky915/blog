@@ -254,7 +254,7 @@ class Lavender_STPI(BaseHandler):
         
         
         data = tornado.escape.json_encode(p)
-        self.write(de)
+        self.write(pl)
     
 
 class MLStripper(HTMLParser):
