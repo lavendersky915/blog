@@ -249,9 +249,7 @@ class Lavender_STPI(BaseHandler):
                 p.append(twocom[0])
                 d.append(twocom[1])
             pass
-            pass
-        
-        
+            pass        
         data = tornado.escape.json_encode(twocom[0])
         self.write(d[1])
     
