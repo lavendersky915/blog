@@ -226,7 +226,7 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                test = test + obj_result['items'][x]['title'] + "<br>"
+                test = test + obj_result['items'][x]['link'] + "<br>"
             pass
             
             pass
