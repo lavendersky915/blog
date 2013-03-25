@@ -253,7 +253,7 @@ class Lavender_STPI(BaseHandler):
             pass
         
         
-        data = tornado.escape.json_encode(sizeof(Plaintiff))
+        data = tornado.escape.json_encode()
         self.write(plaintiff[0])
     
 
