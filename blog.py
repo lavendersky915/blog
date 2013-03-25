@@ -163,6 +163,20 @@ class EntryHandler(BaseHandler):
         self.render("entry.html", entry=entry)
 
 
+class ArchiveHandler(BaseHandler):
+    def get(self):
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC")
+        self.render("archive.html", entries=entries)
+
+
+class FeedHandler(BaseHandler):
+    def get(self):
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 10")
+        self.set_header("Content-Type", "application/atom+xml")
+        self.render("feed.xml", entries=entries)
+        
 class GoogleHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
