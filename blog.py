@@ -222,12 +222,12 @@ class Lavender_STPI(BaseHandler):
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
         test = ""
-        c=0
+        litigation=0
         w = unicode('告', 'utf-8')
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                c = c+1
+                litigation = litigation+1
                 test = obj_result['items'][x]['link']
                 links = str(test)
                 crl = pycurl.Curl()
@@ -244,7 +244,7 @@ class Lavender_STPI(BaseHandler):
             pass
         
         
-        data = tornado.escape.json_encode(c)
+        data = tornado.escape.json_encode(litigation)
         self.write(data)
     
 
