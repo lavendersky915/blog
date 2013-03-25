@@ -226,18 +226,14 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                test = obj_result['items'][x]['link']
-                links = str(test)
-                res = urllib.urlopen(links).read()
-                obj_res = tornado.escape.json_decode(res)
-
+                test = test + obj_result['items'][x]['link'] + "<br>"
             pass
             
             pass
         
         
-        data = tornado.escape.json_encode(obj_res)
-        self.write(data)
+        data = tornado.escape.json_encode(test)
+        self.write(test)
     
 
 class MLStripper(HTMLParser):
