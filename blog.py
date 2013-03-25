@@ -217,7 +217,7 @@ class GoogleHandler(BaseHandler):
 class Lavender_STPI(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=7799"
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
@@ -226,14 +226,24 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                test = test + obj_result['items'][x]['link'] + "<br>"
+                test = obj_result['items'][x]['link']
+
+                crl = pycurl.Curl()
+                crl.setopt(pycurl.VERBOSE,1)
+                crl.setopt(pycurl.FOLLOWLOCATION, 1)
+                crl.setopt(pycurl.MAXREDIRS, 5)
+                crl.fp = StringIO.StringIO()
+                crl.setopt(pycurl.URL, test)
+                crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+                crl.perform()
+                a = crl.fp.getvalue()
             pass
             
             pass
         
         
-        data = tornado.escape.json_encode(test)
-        self.write(obj_result)
+        data = tornado.escape.json_encode(a)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
