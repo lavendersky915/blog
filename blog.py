@@ -223,6 +223,7 @@ class Lavender_STPI(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         test = ""
         litigation=0
+        t = 0
         w = unicode('告', 'utf-8')
         name = unicode('訴訟名稱', 'utf-8')
         for x in xrange(0,count):
