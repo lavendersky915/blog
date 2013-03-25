@@ -243,9 +243,7 @@ class Lavender_STPI(BaseHandler):
                 a = crl.fp.getvalue()
                 content = strip_tags(a)
 
-                if tablename in content:
-                    t = t+1 
-                pass
+                
             pass
             
             pass
