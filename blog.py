@@ -242,7 +242,7 @@ class Lavender_STPI(BaseHandler):
                 crl.perform()
                 a = crl.fp.getvalue()
                 content = strip_tags(a)
-                litiname = content.split(name)
+                litiname = content.split('訴訟名稱')
                 
             pass
             
