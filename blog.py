@@ -224,6 +224,7 @@ class Lavender_STPI(BaseHandler):
         test = ""
         litigation=0
         pl = ""
+        de = ""
         p = []
         w = unicode('告', 'utf-8')
         name = unicode('訴訟名稱', 'utf-8')
@@ -247,13 +248,14 @@ class Lavender_STPI(BaseHandler):
                 liticom = litiname[1].split('提告日期')
                 twocom = liticom[0].split('v.')
                 pl = pl + twocom[0] + "<br>"
+                de = de + twocom[1] + "<br>"
                 p.append(twocom[0])
             pass
             pass
         
         
-        data = tornado.escape.json_encode(p)
-        self.write(pl+twocom[1])
+        data = tornado.escape.json_encode(de)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
