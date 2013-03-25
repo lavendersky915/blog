@@ -176,7 +176,6 @@ class FeedHandler(BaseHandler):
                                 "DESC LIMIT 10")
         self.set_header("Content-Type", "application/atom+xml")
         self.render("feed.xml", entries=entries)
-        
 class GoogleHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
@@ -248,14 +247,15 @@ class Lavender_STPI(BaseHandler):
                 litiname = content.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
                 twocom = liticom[0].split('v.')
-                pl = pl + twocom[0]  + "<br>"
+                pl = pl + twocom[0] 
+                de = de + twocom[1]
                 p.append(twocom[0])
             pass
             pass
         
         
         data = tornado.escape.json_encode(p)
-        self.write(pl)
+        self.write(de)
     
 
 class MLStripper(HTMLParser):
@@ -381,6 +381,15 @@ class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
 
         self.set_secure_cookie("user", str(author_id))
         self.redirect(self.get_argument("next", "/"))
+class AuthLogoutHandler(BaseHandler):
+    def get(self):
+        self.clear_cookie("user")
+        self.redirect(self.get_argument("next", "/"))
+
+
+class EntryModule(tornado.web.UIModule):
+    def render(self, entry):
+        return self.render_string("modules/entry.html", entry=entry)
 
 def main():
     tornado.options.parse_command_line()
