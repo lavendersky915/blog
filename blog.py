@@ -247,7 +247,7 @@ class Lavender_STPI(BaseHandler):
                 liticom = litiname[1].split('提告日期')
                 twocom = liticom[0].split('v.')
                 p.append(twocom[0])
-                d.append(twocom[1])
+                
             pass
             pass
         
