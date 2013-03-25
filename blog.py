@@ -91,6 +91,10 @@ class BaseHandler(tornado.web.RequestHandler):
 
         return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
 
+class SampleApp(BaseHandler):
+    def get(self):
+        self.render('blog_sample.html')
+
 
 class GoogleHandler(BaseHandler):
     def get(self):
