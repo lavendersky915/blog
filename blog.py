@@ -225,7 +225,7 @@ class Lavender_STPI(BaseHandler):
         litigation=0
         ttt = 0
         w = unicode('告', 'utf-8')
-        tablename = unicode('專利訴訟案件基本資料', 'utf-8')
+        tablename = unicode('專', 'utf-8')
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
