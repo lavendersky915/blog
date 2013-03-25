@@ -244,6 +244,7 @@ class Lavender_STPI(BaseHandler):
                 content = strip_tags(a)
                 litiname = content.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
+                twocom = liticom[0].split('v.')
                 
             pass
             
@@ -251,7 +252,7 @@ class Lavender_STPI(BaseHandler):
         
         
         data = tornado.escape.json_encode(t)
-        self.write(liticom[0])
+        self.write(twocom[0])
     
 
 class MLStripper(HTMLParser):
