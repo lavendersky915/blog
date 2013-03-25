@@ -227,13 +227,13 @@ class Lavender_STPI(BaseHandler):
             
             if  w in obj_result['items'][x]['title']:
                 test = obj_result['items'][x]['link']
-
+                links = str(test)
                 crl = pycurl.Curl()
                 crl.setopt(pycurl.VERBOSE,1)
                 crl.setopt(pycurl.FOLLOWLOCATION, 1)
                 crl.setopt(pycurl.MAXREDIRS, 5)
                 crl.fp = StringIO.StringIO()
-                crl.setopt(pycurl.URL, test)
+                crl.setopt(pycurl.URL, links)
                 crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                 crl.perform()
                 a = crl.fp.getvalue()
