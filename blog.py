@@ -247,7 +247,6 @@ class Lavender_STPI(BaseHandler):
                 twocom = liticom[0].split('v.')
                 p.append(twocom[0])
             pass
-            
             pass
         
         
