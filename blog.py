@@ -221,16 +221,18 @@ class Lavender_STPI(BaseHandler):
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
-        links = ""
+        test = ""
         w = unicode('告', 'utf-8')
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                links = obj_result['items'][x]['link']
+                test = obj_result['items'][x]['link']
+                links = str(test)
                 res = urllib.urlopen(links).read()
                 obj_res = tornado.escape.json_decode(res)
 
-            pass            
+            pass
+            
             pass
         
         
