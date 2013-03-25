@@ -230,7 +230,7 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                litigation = litigation+1
+                
                 test = obj_result['items'][x]['link']
                 links = str(test)
                 crl = pycurl.Curl()
@@ -246,15 +246,15 @@ class Lavender_STPI(BaseHandler):
                 litiname = content.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
                 twocom = liticom[0].split('v.')
-                
-
+                plaintiff[litigation] = twocom[0]
+                litigation = litigation+1
             pass
             
             pass
         
         
         data = tornado.escape.json_encode(sizeof(Plaintiff))
-        self.write(data)
+        self.write(plaintiff[0])
     
 
 class MLStripper(HTMLParser):
