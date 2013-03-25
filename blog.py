@@ -242,6 +242,7 @@ class Lavender_STPI(BaseHandler):
                 crl.perform()
                 a = crl.fp.getvalue()
                 content = strip_tags(a)
+
                 if tablename in content:
                     ttt = ttt+1 
                 pass
@@ -251,8 +252,8 @@ class Lavender_STPI(BaseHandler):
             pass
         
         
-        data = tornado.escape.json_encode(content)
-        self.write(ttt)
+        data = tornado.escape.json_encode(ttt)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
