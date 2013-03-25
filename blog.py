@@ -77,12 +77,19 @@ class Application(tornado.web.Application):
             host=options.mysql_host, database=options.mysql_database,
             user=options.mysql_user, password=options.mysql_password)
 class BaseHandler(tornado.web.RequestHandler):
-    
-    a = "123"
+    @property
+    def db(self):
+        return self.application.db
 
-class HomeHandler(BaseHandler):
-    def get(self):
-        self.render("home.html")
+    def get_current_user(self):
+        user_id = self.get_secure_cookie("user")
+
+        print "====== the user id is .... "
+        print user_id
+        if not user_id:
+            return None
+
+        return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
 
 class SampleApp(BaseHandler):
     def get(self):
@@ -139,8 +146,14 @@ class ApiBlogPosts(BaseHandler):
             response['success'] = False
             response['error_message'] = "You screwed up!"
             self.write({'data':response})
-
-
+class HomeHandler(BaseHandler):
+    def get(self):
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 5")
+        if not entries:
+            self.redirect("/compose")
+            return
+        self.render("home.html", entries=entries)
 
 
 class EntryHandler(BaseHandler):
@@ -150,19 +163,6 @@ class EntryHandler(BaseHandler):
         self.render("entry.html", entry=entry)
 
 
-class ArchiveHandler(BaseHandler):
-    def get(self):
-        entries = self.db.query("SELECT * FROM entries ORDER BY published "
-                                "DESC")
-        self.render("archive.html", entries=entries)
-
-
-class FeedHandler(BaseHandler):
-    def get(self):
-        entries = self.db.query("SELECT * FROM entries ORDER BY published "
-                                "DESC LIMIT 10")
-        self.set_header("Content-Type", "application/atom+xml")
-        self.render("feed.xml", entries=entries)
 class GoogleHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
