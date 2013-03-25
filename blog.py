@@ -239,7 +239,7 @@ class Lavender_STPI(BaseHandler):
                 crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                 crl.perform()
                 a = crl.fp.getvalue()
-                content = content + strip_tags(a)
+                content = strip_tags(a)
             pass
             
             pass
