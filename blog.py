@@ -226,10 +226,10 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                links = test + obj_result['items'][x]['link']
+                links = obj_result['items'][x]['link']
                 res = urllib.urlopen(links).read()
                 obj_res = tornado.escape.json_decode(res)
-                
+
             pass            
             pass
         
