@@ -91,9 +91,15 @@ class BaseHandler(tornado.web.RequestHandler):
 
         return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
 
-class SampleApp(BaseHandler):
+class HomeHandler(BaseHandler):
     def get(self):
-        self.render('blog_sample.html')
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 5")
+        if not entries:
+            self.redirect("/compose")
+            return
+        self.render("home.html", entries=entries)
+
 
 
 class GoogleHandler(BaseHandler):
