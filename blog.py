@@ -242,15 +242,15 @@ class Lavender_STPI(BaseHandler):
                 crl.perform()
                 a = crl.fp.getvalue()
                 content = strip_tags(a)
-                litiname = content.split('訴訟名稱')
-                
+                splitname = content.split('訴訟名稱')
+                splitdate = litiname[1].split('提告日期')
             pass
             
             pass
         
         
         data = tornado.escape.json_encode(t)
-        self.write(litiname[1])
+        self.write(splitdate[0])
     
 
 class MLStripper(HTMLParser):
