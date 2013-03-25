@@ -239,13 +239,14 @@ class Lavender_STPI(BaseHandler):
                 crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                 crl.perform()
                 a = crl.fp.getvalue()
+                content = strip_tags(a)
             pass
             
             pass
         
         
-        data = tornado.escape.json_encode(litigation)
-        self.write(data)
+        data = tornado.escape.json_encode(content)
+        self.write(content)
     
 
 class MLStripper(HTMLParser):
