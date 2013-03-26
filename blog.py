@@ -185,7 +185,6 @@ class GoogleHandler(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         content = ""
         allass = ""
-        allassignee = []
 
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
