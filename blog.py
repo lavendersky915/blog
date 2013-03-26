@@ -247,7 +247,7 @@ class Lavender_STPI(BaseHandler):
                 content = strip_tags(a)
                 litiname = content.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
-                two = two + liticom[0]
+                two = two + liticom[0] +"<br>"
                 twocom = liticom[0].split('v.')
                 
                 p.append(twocom[0])
