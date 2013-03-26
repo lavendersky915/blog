@@ -185,10 +185,12 @@ class GoogleHandler(BaseHandler):
         obj_result = tornado.escape.json_decode(result)
         content = ""
         allass = ""
+        alllink =""
 
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link = str(html)
+            alllink = alllink + link + "<br>"
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -211,7 +213,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(allass)
         #self.render("google.html", entries="test")
-        self.write(allass)
+        self.write(alllink)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
