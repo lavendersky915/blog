@@ -234,15 +234,25 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                test = test + obj_result['items'][x]['link'] + "<br>"
+                test = obj_result['items'][x]['link']
                 links = str(test)
+                crl = pycurl.Curl()
+                crl.setopt(pycurl.VERBOSE,1)
+                crl.setopt(pycurl.FOLLOWLOCATION, 1)
+                crl.setopt(pycurl.MAXREDIRS, 5)
+                crl.fp = StringIO.StringIO()
+                crl.setopt(pycurl.URL, links)
+                crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+                crl.perform()
+                a = crl.fp.getvalue()
+
                 
 
             pass
         pass
 
-        data = tornado.escape.json_encode(obj_result)
-        self.write(test)
+        data = tornado.escape.json_encode(a)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
