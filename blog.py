@@ -234,7 +234,6 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                litigation = litigation+1
                 test = obj_result['items'][x]['link']
                 links = str(test)
                 crl = pycurl.Curl()
@@ -252,6 +251,7 @@ class Lavender_STPI(BaseHandler):
                 liticom = litiname[1].split('提告日期')
                 c = liticom[0].count("v.")
                 if c == 1:
+                    litigation = litigation+1
                     twocom = liticom[0].split('v.') 
                     p.append(twocom[0])
                     d.append(twocom[1])
@@ -266,7 +266,7 @@ class Lavender_STPI(BaseHandler):
             pass
             pass
 
-        data = tornado.escape.json_encode(te)
+        data = tornado.escape.json_encode(litigation)
         self.write(data)
     
 
