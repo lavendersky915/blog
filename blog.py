@@ -221,7 +221,6 @@ class Lavender_STPI(BaseHandler):
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
-        
 
         data = tornado.escape.json_encode(obj_result)
         self.write(obj_result)
