@@ -207,10 +207,10 @@ class GoogleHandler(BaseHandler):
             arr = array[1].split('Primary')
             ass = arr[0].split(':')
             allass = allass.append(ass[1])
-            
+
         pass
 
-        data = tornado.escape.json_encode(allass)
+        data = tornado.escape.json_encode(allass[6])
         #self.render("google.html", entries="test")
         self.write(allass[6])
 
