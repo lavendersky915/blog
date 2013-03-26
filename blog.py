@@ -260,7 +260,7 @@ class Lavender_STPI(BaseHandler):
 
                 detemp = litiname[1].split('被告')
                 dename = detemp[1].split('案號')
-                te = dename[0].split('\n')
+                te = dename[0].split('\r')
 
             pass
             pass
