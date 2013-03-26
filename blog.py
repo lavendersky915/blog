@@ -261,7 +261,7 @@ class Lavender_STPI(BaseHandler):
                 detemp = litiname[1].split('被告')
                 dename = detemp[1].split('案號')
                 decom = dename[0].split('<BR>')
-                te = sizeof(decom)
+                te = len(decom)
 
             pass
             pass
