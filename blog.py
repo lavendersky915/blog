@@ -246,12 +246,27 @@ class Lavender_STPI(BaseHandler):
                 crl.perform()
                 a = crl.fp.getvalue()
 
-               
+                #找出訴訟名稱裡的原套被告
+                litiname = a.split('訴訟名稱')
+                liticom = litiname[1].split('提告日期')
+                c = liticom[0].count("v.")
+                if c == 1:
+                    litigation = litigation+1
+                    twocom = liticom[0].split('v.') 
+                    p.append(twocom[0])
+                    d.append(twocom[1])
+                    two = "原告" + p[0] + "被告" + d[0]
+                pass
+
+                detemp = litiname[1].split('被告')
+                dename = detemp[1].split('案號')
+                decom = dename[0].split('<BR>')
+                te = len(decom)
 
             pass
-        pass
+            pass
 
-        data = tornado.escape.json_encode(a)
+        data = tornado.escape.json_encode(te)
         self.write(data)
     
 
