@@ -244,8 +244,8 @@ class Lavender_STPI(BaseHandler):
                 crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                 crl.perform()
                 a = crl.fp.getvalue()
-                content = strip_tags(a)
-                litiname = content.split('訴訟名稱')
+                #content = strip_tags(a)
+                litiname = a.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
                 two = two + liticom[0] +"<br>"
                 twocom = liticom[0].split('v.')
