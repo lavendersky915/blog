@@ -181,8 +181,8 @@ class GoogleHandler(BaseHandler):
         keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
         result = urllib.urlopen(url).read()
-        count = result.count('items')*10
-        #count = result.count('items')
+        #count = result.count('items')*10
+        count = result.count('items')
         obj_result = tornado.escape.json_decode(result)
         content=""
 
