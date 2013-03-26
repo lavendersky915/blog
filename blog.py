@@ -251,7 +251,7 @@ class Lavender_STPI(BaseHandler):
             pass
         pass
 
-        data = tornado.escape.json_encode(c)
+        data = tornado.escape.json_encode(a)
         self.write(a)
     
 
