@@ -260,13 +260,14 @@ class Lavender_STPI(BaseHandler):
 
                 detemp = litiname[1].split('被告')
                 dename = detemp[1].split('案號')
-                te = dename[0].split('<BR>')
+                decom = dename[0].split('<BR>')
+                te = sizeof(decom)
 
             pass
             pass
 
-        data = tornado.escape.json_encode(c)
-        self.write(te[1])
+        data = tornado.escape.json_encode(te)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
