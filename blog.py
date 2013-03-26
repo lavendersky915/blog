@@ -246,7 +246,7 @@ class Lavender_STPI(BaseHandler):
                 crl.perform()
                 a = crl.fp.getvalue()
 
-                
+               
 
             pass
         pass
