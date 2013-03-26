@@ -221,10 +221,28 @@ class Lavender_STPI(BaseHandler):
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
-        
+        #宣告區
+        test = ""
+        litigation=0
+        two =""
+        p = []
+        d = []
+        w = unicode('告', 'utf-8')
+        name = unicode('訴訟名稱', 'utf-8')
+
+        #找出訴訟並紀錄
+        for x in xrange(0,count):
+            
+            if  w in obj_result['items'][x]['title']:
+                test = obj_result['items'][x]['link']
+                links = str(test)
+                
+
+            pass
+        pass
 
         data = tornado.escape.json_encode(obj_result)
-        self.write(data)
+        self.write(test)
     
 
 class MLStripper(HTMLParser):
