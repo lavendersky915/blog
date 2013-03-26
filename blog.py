@@ -179,7 +179,7 @@ class FeedHandler(BaseHandler):
 class GoogleHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:5upt-glxmyc"
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
         #url = "http://www.google.com/patents/US6658577"
         result = urllib.urlopen(url).read()
         #count = result.count('items')*10
@@ -251,22 +251,12 @@ class Lavender_STPI(BaseHandler):
                 litiname = a.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
                 c = liticom[0].count("v.")
-                if c == 1:
-                    twocom = liticom[0].split('v.') 
-                    p.append(twocom[0])
-                    d.append(twocom[1])
-                    two = "原告" + p[0] + "被告" + d[0]
-                pass
-
-                detemp = litiname[1].split('被告')
-                dename = detemp[1].split('案號')
-                decom = dename[0].split('<BR>')
-                length = len(decom)
+                
 
             pass
             pass
 
-        data = tornado.escape.json_encode(length)
+        data = tornado.escape.json_encode(c)
         self.write(data)
     
 
