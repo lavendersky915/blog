@@ -227,7 +227,6 @@ class Lavender_STPI(BaseHandler):
         two =""
         p = []
         d = []
-        l =""
         w = unicode('告', 'utf-8')
         name = unicode('訴訟名稱', 'utf-8')
 
@@ -235,15 +234,15 @@ class Lavender_STPI(BaseHandler):
         for x in xrange(0,count):
             
             if  w in obj_result['items'][x]['title']:
-                test = obj_result['items'][x]['link']
+                test = test + obj_result['items'][x]['link'] + "<br>"
                 links = str(test)
-                l = l + links ="<br>"
+                
 
             pass
         pass
 
         data = tornado.escape.json_encode(obj_result)
-        self.write(l)
+        self.write(test)
     
 
 class MLStripper(HTMLParser):
