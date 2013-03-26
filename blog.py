@@ -217,7 +217,7 @@ class GoogleHandler(BaseHandler):
 class Lavender_STPI(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCSGM0fArmZcWnu2GD2ZHG_tGX3mQl9rCI&cx=005971756043172606388:edll3ji0ejq"
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
