@@ -244,10 +244,16 @@ class Lavender_STPI(BaseHandler):
                 crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                 crl.perform()
                 a = crl.fp.getvalue()
+
                 #content = strip_tags(a)
                 litiname = a.split('訴訟名稱')
                 liticom = litiname[1].split('提告日期')
+
                 c = liticom[0].count("v.")
+                if c > 1:
+                    twocomtmp = liticom[0].split('v.')
+                    twocomtmp2 = split(twocomtmp[0])
+                pass
                 two = two + liticom[0] +"<br>"
                 twocom = liticom[0].split('v.')
                 pl = pl + twocom[0] 
@@ -257,7 +263,7 @@ class Lavender_STPI(BaseHandler):
         
         
         data = tornado.escape.json_encode(c)
-        self.write(data)
+        self.write(twocomtmp2[0])
     
 
 class MLStripper(HTMLParser):
