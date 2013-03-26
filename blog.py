@@ -184,7 +184,7 @@ class GoogleHandler(BaseHandler):
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
         content = ""
-        allass = ""
+        allass = []
         alllink =""
 
         for x in xrange(0,count):
@@ -206,13 +206,13 @@ class GoogleHandler(BaseHandler):
             array = content.split('Assignee')
             arr = array[1].split('Primary')
             ass = arr[0].split(':')
-            allass = allass + ass[1] + "<br>"
+            allass = allass.append(ass[1])
             
         pass
 
         data = tornado.escape.json_encode(allass)
         #self.render("google.html", entries="test")
-        self.write(allass)
+        self.write(allass[6])
 
 class Lavender_STPI(BaseHandler):
     def get(self):
