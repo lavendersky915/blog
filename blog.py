@@ -255,13 +255,14 @@ class Lavender_STPI(BaseHandler):
                     twocom = liticom[0].split('v.') 
                     p.append(twocom[0])
                     d.append(twocom[1])
+                    two = "原告" + p[0] + "被告" + d[0]
                 pass
 
             pass
             pass
 
         data = tornado.escape.json_encode(c)
-        self.write(d[0])
+        self.write(two)
     
 
 class MLStripper(HTMLParser):
