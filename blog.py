@@ -184,11 +184,11 @@ class GoogleHandler(BaseHandler):
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
         content=""
-        alllink =""
+        c = 0
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link = str(html)
-            alllink = alllink + link +"<br>"
+
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -197,10 +197,9 @@ class GoogleHandler(BaseHandler):
             crl.setopt(pycurl.URL, link)
             crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
             crl.perform()
-
             soup = BeautifulSoup(crl.fp.getvalue())
             for x in xrange(0,1):
-
+                c=c+1
                 ans = soup.find("div", { "class" : "about_content" })
                 content = content + strip_tags(ans.prettify())
                 array = content.split('Assignee')
@@ -211,7 +210,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(ass)
         #self.render("google.html", entries="test")
-        self.write(alllink)
+        self.write(c)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
