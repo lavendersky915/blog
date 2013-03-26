@@ -258,7 +258,7 @@ class Lavender_STPI(BaseHandler):
                     two = "原告" + p[0] + "被告" + d[0]
                 pass
 
-                detemp = a.split('被告')
+                detemp = litiname[1].split('被告')
                 dename = detemp[1].split('案號')
 
 
