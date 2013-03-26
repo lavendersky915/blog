@@ -254,14 +254,15 @@ class Lavender_STPI(BaseHandler):
                     two = two + liticom[0] +"<br>"
                     twocom = liticom[0].split('v.')
                     pl = pl + twocom[0] 
+                    de = de + twocom[1] 
                     p.append(twocom[0])
                 pass
+
             pass
             pass
-        
-        
+
         data = tornado.escape.json_encode(c)
-        self.write(two)
+        self.write(de)
     
 
 class MLStripper(HTMLParser):
