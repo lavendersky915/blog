@@ -182,7 +182,7 @@ class GoogleHandler(BaseHandler):
         assarray = []
         index = 1
         keyword = self.get_argument("keyword", default=None, strip=False)
-        for y in range(1,10):
+        for y in xrange(1,10):
             index = index+1;
         pass
         
