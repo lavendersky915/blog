@@ -183,38 +183,11 @@ class GoogleHandler(BaseHandler):
         index = 1
         keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
-        result = urllib.urlopen(url).read()
-        count = result.count('kind') - 1
-        obj_result = tornado.escape.json_decode(result)
         
-        for x in xrange(0,count):
-            html = obj_result['items'][x]['link']
-            link = str(html)
-            crl = pycurl.Curl()
-            crl.setopt(pycurl.VERBOSE,1)
-            crl.setopt(pycurl.FOLLOWLOCATION, 1)
-            crl.setopt(pycurl.MAXREDIRS, 5)
-            crl.fp = StringIO.StringIO()
-            crl.setopt(pycurl.URL, link)
-            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-            crl.perform()
-
-            soup = BeautifulSoup(crl.fp.getvalue())
-            
-            ans = soup.find("div", { "class" : "about_content" })
-            content = strip_tags(ans.prettify())
-            if 'Assignee' in content:
-                array = content.split('Assignee')                
-                arr = array[1].split('Primary')
-                ass = arr[0].split(':')
-                assarray.append(ass[1])
-                leng = len(assarray)
-            pass
-        pass
 
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
-        self.write(data)
+        self.write(url)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
