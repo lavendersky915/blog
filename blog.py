@@ -179,7 +179,7 @@ class FeedHandler(BaseHandler):
 class GoogleHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start=1&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start=11&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
@@ -205,13 +205,12 @@ class GoogleHandler(BaseHandler):
             ans = soup.find("div", { "class" : "about_content" })
             content = strip_tags(ans.prettify())
             array = content.split('Assignee')
-            arr = array[1].split('Primary')
             
         pass
 
         data = tornado.escape.json_encode(obj_result)
         #self.render("google.html", entries="test")
-        self.write(arr[0])
+        self.write(array[1])
 
 class Lavender_STPI(BaseHandler):
     def get(self):
