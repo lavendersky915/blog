@@ -209,7 +209,7 @@ class GoogleHandler(BaseHandler):
             array = content.split('Assignee')
             if p in array[1]:
                 tw = "w"
-            pass
+            pass     
         pass
 
         data = tornado.escape.json_encode(obj_result)
