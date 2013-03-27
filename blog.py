@@ -178,19 +178,17 @@ class FeedHandler(BaseHandler):
         self.render("feed.xml", entries=entries)
 class GoogleHandler(BaseHandler):
     def get(self):
+        content = ""
+        assarray = []
         keyword = self.get_argument("keyword", default=None, strip=False)
         url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start=11&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
-        content = ""
-        allass = ""
-        alllink =""
-        assarray = []
+        
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link = str(html)
-            alllink = alllink + link +"<br>"
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -208,7 +206,6 @@ class GoogleHandler(BaseHandler):
                 array = content.split('Assignee')                
                 arr = array[1].split('Primary')
                 ass = arr[0].split(':')
-                allass = allass + ass[1] + "<br>"
                 assarray.append(ass[1])
                 leng = len(assarray)
             pass
