@@ -211,7 +211,7 @@ class GoogleHandler(BaseHandler):
 
         data = tornado.escape.json_encode(obj_result)
         #self.render("google.html", entries="test")
-        self.write(arr[o])
+        self.write(arr[0])
 
 class Lavender_STPI(BaseHandler):
     def get(self):
