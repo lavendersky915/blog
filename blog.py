@@ -183,36 +183,11 @@ class GoogleHandler(BaseHandler):
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
-        content = ""
-        allass = ""
-        assarray = []
-        for x in xrange(0,count):
-            html = obj_result['items'][x]['link']
-            link = str(html)
-            crl = pycurl.Curl()
-            crl.setopt(pycurl.VERBOSE,1)
-            crl.setopt(pycurl.FOLLOWLOCATION, 1)
-            crl.setopt(pycurl.MAXREDIRS, 5)
-            crl.fp = StringIO.StringIO()
-            crl.setopt(pycurl.URL, link)
-            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-            crl.perform()
-
-            soup = BeautifulSoup(crl.fp.getvalue())
-            
-            ans = soup.find("div", { "class" : "about_content" })
-            content = strip_tags(ans.prettify())
-            array = content.split('Assignee')
-            arr = array[1].split('Primary')
-            ass = arr[0].split(':')
-            allass = allass + ass[1] + "<br>"
-            assarray.append(ass[1])
-            leng = len(assarray)
-        pass
+        
 
         data = tornado.escape.json_encode(obj_result)
         #self.render("google.html", entries="test")
-        self.write(assarray[0])
+        self.write(obj_result)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
