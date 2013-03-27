@@ -188,7 +188,7 @@ class GoogleHandler(BaseHandler):
         alllink =""
         assarray = []
         tw = ""
-        p = 'Primary'
+        P = unicode('Primary', 'utf-8')
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link = str(html)
