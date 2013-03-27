@@ -206,17 +206,13 @@ class GoogleHandler(BaseHandler):
             content = strip_tags(ans.prettify())
             array = content.split('Assignee')
             if  'Primary' in array[1]:
-                arr = array[1].split('Primary')
-                ass = arr[0].split(':')
-                allass = allass + ass[1] + "<br>"
-                assarray.append(ass[1])
-                leng = len(assarray)
+                tw = "w"
             pass
         pass
 
         data = tornado.escape.json_encode(obj_result)
         #self.render("google.html", entries="test")
-        self.write(arr[0])
+        self.write(tw)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
