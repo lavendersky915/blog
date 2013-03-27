@@ -186,7 +186,6 @@ class GoogleHandler(BaseHandler):
         while index < 50:
             
             
-            pass
             index = index+10
         pass
         data = tornado.escape.json_encode(index)
