@@ -190,6 +190,7 @@ class GoogleHandler(BaseHandler):
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link = str(html)
+            alllink = alllink + link +"<br>"
             crl = pycurl.Curl()
             crl.setopt(pycurl.VERBOSE,1)
             crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -204,7 +205,6 @@ class GoogleHandler(BaseHandler):
             ans = soup.find("div", { "class" : "about_content" })
             content = strip_tags(ans.prettify())
             array = content.split('Assignee')
-            alllink = alllink + array[1] + "<br>"
             
         pass
 
