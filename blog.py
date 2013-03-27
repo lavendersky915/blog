@@ -207,11 +207,12 @@ class GoogleHandler(BaseHandler):
             ass = arr[0].split(':')
             allass = allass + ass[1] + "<br>"
             assarray.append(ass[1])
+            leng = len(decom)
         pass
 
-        data = tornado.escape.json_encode(allass)
+        data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
-        self.write(assarray[0])
+        self.write(data)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
