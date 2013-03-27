@@ -202,12 +202,14 @@ class GoogleHandler(BaseHandler):
 
             soup = BeautifulSoup(crl.fp.getvalue())
             
+            ans = soup.find("div", { "class" : "about_content" })
+            content = strip_tags(ans.prettify())
             
         pass
 
         data = tornado.escape.json_encode(obj_result)
         #self.render("google.html", entries="test")
-        self.write(crl.fp.getvalue())
+        self.write(content)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
