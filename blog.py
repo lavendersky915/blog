@@ -187,8 +187,8 @@ class GoogleHandler(BaseHandler):
         allass = ""
         alllink =""
         assarray = []
-        tw = ""
-        P = unicode('Primary', 'utf-8')
+        tw =""
+        p = 'Primary'
         for x in xrange(0,count):
             html = obj_result['items'][x]['link']
             link = str(html)
@@ -207,7 +207,9 @@ class GoogleHandler(BaseHandler):
             ans = soup.find("div", { "class" : "about_content" })
             content = strip_tags(ans.prettify())
             array = content.split('Assignee')
-                
+            if p in array[1]:
+                tw = "w"
+            pass
         pass
 
         data = tornado.escape.json_encode(obj_result)
