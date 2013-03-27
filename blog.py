@@ -182,7 +182,7 @@ class GoogleHandler(BaseHandler):
         assarray = []
         index = 1
         keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start=11&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
         result = urllib.urlopen(url).read()
         count = result.count('kind') - 1
         obj_result = tornado.escape.json_decode(result)
