@@ -191,12 +191,23 @@ class GoogleHandler(BaseHandler):
             html = obj_result['items'][x]['link']
             link = str(html)
             alllink = alllink + link +"<br>"
+            crl = pycurl.Curl()
+            crl.setopt(pycurl.VERBOSE,1)
+            crl.setopt(pycurl.FOLLOWLOCATION, 1)
+            crl.setopt(pycurl.MAXREDIRS, 5)
+            crl.fp = StringIO.StringIO()
+            crl.setopt(pycurl.URL, link)
+            crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+            crl.perform()
+
+            soup = BeautifulSoup(crl.fp.getvalue())
+            
             
         pass
 
         data = tornado.escape.json_encode(obj_result)
         #self.render("google.html", entries="test")
-        self.write(alllink)
+        self.write(crl.fp.getvalue())
 
 class Lavender_STPI(BaseHandler):
     def get(self):
