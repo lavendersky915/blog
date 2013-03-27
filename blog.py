@@ -207,7 +207,7 @@ class GoogleHandler(BaseHandler):
             ass = arr[0].split(':')
             allass = allass + ass[1] + "<br>"
             assarray.append(ass[1])
-            leng = len(decom)
+            leng = len(assarray)
         pass
 
         data = tornado.escape.json_encode(leng)
