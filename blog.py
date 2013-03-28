@@ -289,8 +289,7 @@ def strip_tags(html):
 
 class TestHandler(BaseHandler):
     def get(self):
-        keyword = self.get_argument("keyword", default=None, strip=False)        
-
+        #keyword = self.get_argument("keyword", default=None, strip=False)
         self.write(keyword)
        
 class ComposeHandler(BaseHandler):
