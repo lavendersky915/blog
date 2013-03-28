@@ -291,7 +291,7 @@ class TestHandler(BaseHandler):
     def get(self):
         p = 0
         while p < 10:
-            p = p + 1
+            p += 1
             pass
         self.write(p)
        
