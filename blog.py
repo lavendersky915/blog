@@ -288,36 +288,12 @@ def strip_tags(html):
     return s.get_data()
 
 class TestHandler(BaseHandler):
-    
-
-
     def get(self):
-        import urllib
-        import pprint
-        import json
-        # build Q using the link here: http://developer.yahoo.com/yql/console/?q=select%20*%20from%20local.search%20where%20zip%3D'94085'%20and%20query%3D'pizza'#h=select%20*%20from%20html%20where%20url%3D%22http%3A//www.nccu.edu.tw%22
-        Q = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%3D%22http%3A%2F%2Fwww.nccu.edu.tw%22&format=json&diagnostics=true"
-
-
-        #u = urllib.urlopen(Q)
-        #data = u.read()
-
-
-        crl = pycurl.Curl()
-        crl.setopt(pycurl.VERBOSE,1)
-        crl.setopt(pycurl.FOLLOWLOCATION, 1)
-        crl.setopt(pycurl.MAXREDIRS, 5)
-        crl.fp = StringIO.StringIO()
-        crl.setopt(pycurl.URL, Q)
-        crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-        crl.perform()
-
-        JSON = json.loads(crl.fp.getvalue())
-
-        for k in JSON['query']['results']['body']['div']['div']:
-            print k
-
-        self.write(crl.fp.getvalue())
+        p = 0
+        while p < 10:
+            p = p + 1
+            pass
+        self.write(p)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
