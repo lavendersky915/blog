@@ -292,8 +292,9 @@ class TestHandler(BaseHandler):
         keyword = self.get_argument("keyword", default=None, strip=False)
         p = 0
         while p<=10:
+            p += 1
             pass
-        self.write(keyword)
+        self.write(p)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
