@@ -291,6 +291,9 @@ class TestHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
         p = 0
+        while p<10:
+            p=p+1
+            pass
         t = str(p)
 
         self.write(t)
