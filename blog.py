@@ -180,10 +180,10 @@ class GoogleHandler(BaseHandler):
     def get(self):
         content = ""
         assarray = []
-        page = 1
+        #page = 1
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while page < 50:
-            index = str(page)
+        #while page < 50:
+        #    index = str(page)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
             result = urllib.urlopen(url).read()
             count = result.count('kind') - 1
@@ -210,7 +210,7 @@ class GoogleHandler(BaseHandler):
                     leng = len(assarray)
                 pass
             pass
-            page = page + 10
+            #page = page + 10
         pass
         
         data = tornado.escape.json_encode(leng)
