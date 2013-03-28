@@ -182,7 +182,7 @@ class GoogleHandler(BaseHandler):
         assarray = []
         page = 1
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while page < 50:
+        while page < 10:
             index = str(page)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
             result = urllib.urlopen(url).read()
