@@ -211,7 +211,7 @@ class GoogleHandler(BaseHandler):
                 pass
             pass
             #page = page + 10
-        pass
+        #pass
         
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
