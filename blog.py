@@ -181,7 +181,6 @@ class GoogleHandler(BaseHandler):
         content = ""
         assarray = []
         page = 1
-        linkall =""
         keyword = self.get_argument("keyword", default=None, strip=False)
         while page < 50:
             index = str(page)
@@ -192,7 +191,6 @@ class GoogleHandler(BaseHandler):
             for x in xrange(0,count):
                 html = obj_result['items'][x]['link']
                 link = str(html)
-                linkall = linkall + link + "<br>"
                 crl = pycurl.Curl()
                 crl.setopt(pycurl.VERBOSE,1)
                 crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -215,7 +213,6 @@ class GoogleHandler(BaseHandler):
             page = page + 10
         pass
         
-        ss = str(page)
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
         self.write(data)
