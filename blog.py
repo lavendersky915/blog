@@ -289,8 +289,12 @@ def strip_tags(html):
 
 class TestHandler(BaseHandler):
     def get(self):
-        #keyword = self.get_argument("keyword", default=None, strip=False)
-        self.write(keyword)
+        keyword = self.get_argument("keyword", default=None, strip=False)
+        p = 0
+        while p < 0:
+            p = p + 1
+            pass
+        self.write(p)
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
