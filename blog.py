@@ -181,8 +181,9 @@ class GoogleHandler(BaseHandler):
         content = ""
         assarray = []
         page = 1
+        linkall =""
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while page < 10:
+        while page < 50:
             index = str(page)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
             result = urllib.urlopen(url).read()
@@ -191,22 +192,15 @@ class GoogleHandler(BaseHandler):
             for x in xrange(0,count):
                 html = obj_result['items'][x]['link']
                 link = str(html)
-                crl = pycurl.Curl()
-                crl.setopt(pycurl.VERBOSE,1)
-                crl.setopt(pycurl.FOLLOWLOCATION, 1)
-                crl.setopt(pycurl.MAXREDIRS, 5)
-                crl.fp = StringIO.StringIO()
-                crl.setopt(pycurl.URL, link)
-                crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-                crl.perform()
+                linkall = linkall + link + "<br>"
             pass
             page = page + 10
         pass
         
         ss = str(page)
-        data = tornado.escape.json_encode(crl.fp.getvalue())
+        data = tornado.escape.json_encode(linkall)
         #self.render("google.html", entries="test")
-        self.write(data)
+        self.write(linkall)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
