@@ -193,6 +193,15 @@ class GoogleHandler(BaseHandler):
                 html = obj_result['items'][x]['link']
                 link = str(html)
                 linkall = linkall + link + "<br>"
+                crl = pycurl.Curl()
+                crl.setopt(pycurl.VERBOSE,1)
+                crl.setopt(pycurl.FOLLOWLOCATION, 1)
+                crl.setopt(pycurl.MAXREDIRS, 5)
+                crl.fp = StringIO.StringIO()
+                crl.setopt(pycurl.URL, link)
+                crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+                crl.perform()
+                soup = BeautifulSoup(crl.fp.getvalue())
             pass
             page = page + 10
         pass
