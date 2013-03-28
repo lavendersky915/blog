@@ -214,6 +214,7 @@ class GoogleHandler(BaseHandler):
                 leng = len(assarray)
             pass
         pass
+        page = page +10
         pass
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
@@ -269,8 +270,7 @@ class Lavender_STPI(BaseHandler):
                 length = len(decom)
 
             pass
-            page = page + 10
-        pass
+            pass
 
         data = tornado.escape.json_encode(length)
         self.write(data)
