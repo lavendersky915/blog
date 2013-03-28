@@ -291,9 +291,7 @@ class TestHandler(BaseHandler):
     def get(self):
         keyword = self.get_argument("keyword", default=None, strip=False)
         p = 0
-        while p<=10:
-            p += 1
-            pass
+        
         self.write(p)
        
 class ComposeHandler(BaseHandler):
