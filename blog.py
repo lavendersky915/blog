@@ -212,10 +212,9 @@ class GoogleHandler(BaseHandler):
                     leng = len(assarray)
                 pass
             pass
-        #    page = page + 10
+            #page = page + 10
         #pass
-        
-        ss = str(page)
+
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
         self.write(data)
