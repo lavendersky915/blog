@@ -203,15 +203,22 @@ class GoogleHandler(BaseHandler):
                 crl.perform()
                 soup = BeautifulSoup(crl.fp.getvalue())
                 ans = soup.find("div", { "class" : "about_content" })
-                content = content + strip_tags(ans.prettify())
+                content = strip_tags(ans.prettify())
+                if 'Assignee' in content:
+                    array = content.split('Assignee')                
+                    arr = array[1].split('Primary')
+                    ass = arr[0].split(':')
+                    assarray.append(ass[1])
+                    leng = len(assarray)
+                pass
             pass
             page = page + 10
         pass
         
         ss = str(page)
-        data = tornado.escape.json_encode(content)
+        data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
-        self.write(content)
+        self.write(data)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
