@@ -259,9 +259,8 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
-                        aa = str(a)
                         if name in a:
-                            aaa = "y"
+                            aa = "y"
                          pass
                         
                         #找出訴訟名稱裡的原套被告
@@ -286,7 +285,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(a)
-        self.write(aaa)
+        self.write(aa)
     
 
 class MLStripper(HTMLParser):
