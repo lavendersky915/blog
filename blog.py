@@ -232,7 +232,7 @@ class Lavender_STPI(BaseHandler):
         w = unicode('告', 'utf-8')
 
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while pages < 10:
+        while pages < 20:
             startindex = str(pages)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCSGM0fArmZcWnu2GD2ZHG_tGX3mQl9rCI&cx=005971756043172606388:edll3ji0ejq"
             result = urllib.urlopen(url).read()
@@ -256,30 +256,16 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(pycurl.URL, links)
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
-                        a = crl.fp.getvalue()
+                        a = a+ crl.fp.getvalue()
 
-                        #找出訴訟名稱裡的原套被告
-                        litiname = a.split('訴訟名稱')
-                        liticom = litiname[1].split('提告日期')
-                        c = liticom[0].count("v.")
-                        if c == 1:
-                            twocom = liticom[0].split('v.') 
-                            p.append(twocom[0])
-                            d.append(twocom[1])
-                            two = "原告" + p[0] + "被告" + d[0]
-                        pass
-
-                        detemp = litiname[1].split('被告')
-                        dename = detemp[1].split('案號')
-                        decom = dename[0].split('<BR>')
-                        length = len(decom)
+                        
                     pass
                 pass
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(length)
-        self.write(data)
+        data = tornado.escape.json_encode(a)
+        self.write(a)
     
 
 class MLStripper(HTMLParser):
