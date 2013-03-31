@@ -182,10 +182,11 @@ class GoogleHandler(BaseHandler):
         assarray = []
         page = 1
         linkall =""
+        assgtable = "<table><tr>assignees</tr>"
         keyword = self.get_argument("keyword", default=None, strip=False)
         while page < 10:
             index = str(page)
-            url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:5upt-glxmyc"
+            url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+index+"&key=AIzaSyCgRHK1Q03VBAIH313mrsWVCdjHnTzNUKw&cx=005971756043172606388:5upt-glxmyc"
             result = urllib.urlopen(url).read()
             count = result.count('kind') - 1
             obj_result = tornado.escape.json_decode(result)
@@ -209,15 +210,16 @@ class GoogleHandler(BaseHandler):
                     arr = array[1].split('Primary')
                     ass = arr[0].split(':')
                     assarray.append(ass[1])
+                    assgtable = assgtable + "<tr>" + ass[1] + "</tr>"
                     leng = len(assarray)
                 pass
             pass
             page = page + 10
         pass
-
+        assgtable = assgtable + "</table>"
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
-        self.write(assarray[0])
+        self.write(assgtable)
 
 class Lavender_STPI(BaseHandler):
     def get(self):
