@@ -241,11 +241,20 @@ class Lavender_STPI(BaseHandler):
             obj_result = tornado.escape.json_decode(result)
 
 
-            
+            #找出訴訟並紀錄
+            for x in xrange(0,count):
+                
+                if  w in obj_result['items'][x]['title']:
+                    litigation = litigation+1
+                    test = obj_result['items'][x]['link']
+                    links = str(test)
+                    
+                pass
+            pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(obj_result)
-        self.write(obj_result)
+        data = tornado.escape.json_encode(links)
+        self.write(links)
     
 
 class MLStripper(HTMLParser):
