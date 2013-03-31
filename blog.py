@@ -261,7 +261,7 @@ class Lavender_STPI(BaseHandler):
                         a = crl.fp.getvalue()
 
                         #找出訴訟名稱裡的原套被告
-                        if name in a:
+                        if name is not in a:
                             aa = "y"
                         pass    
                         
