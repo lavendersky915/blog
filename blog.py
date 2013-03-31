@@ -227,6 +227,7 @@ class Lavender_STPI(BaseHandler):
         litigation=0
         two =""
         length =""
+        alls = ""
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -247,6 +248,7 @@ class Lavender_STPI(BaseHandler):
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
                     links = str(test)
+                    alls = alls + links + "<br>"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -278,8 +280,8 @@ class Lavender_STPI(BaseHandler):
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(length)
-        self.write(data)
+        data = tornado.escape.json_encode(alls)
+        self.write(alls)
     
 
 class MLStripper(HTMLParser):
