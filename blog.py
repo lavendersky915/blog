@@ -259,14 +259,16 @@ class Lavender_STPI(BaseHandler):
                         crl.perform()
                         a = crl.fp.getvalue()
 
+                        #找出訴訟名稱裡的原套被告
+                        litiname = a.split('訴訟名稱')
                         
                     pass
                 pass
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(obj_result)
-        self.write(a)
+        data = tornado.escape.json_encode(litiname[1])
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
