@@ -248,13 +248,25 @@ class Lavender_STPI(BaseHandler):
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
                     links = str(test)
-                    
+                    if links is not None:
+                        crl = pycurl.Curl()
+                        crl.setopt(pycurl.VERBOSE,1)
+                        crl.setopt(pycurl.FOLLOWLOCATION, 1)
+                        crl.setopt(pycurl.MAXREDIRS, 5)
+                        crl.fp = StringIO.StringIO()
+                        crl.setopt(pycurl.URL, links)
+                        crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
+                        crl.perform()
+                        a = crl.fp.getvalue()
+
+                        
+                    pass
                 pass
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(links)
-        self.write(links)
+        data = tornado.escape.json_encode(obj_result)
+        self.write(a)
     
 
 class MLStripper(HTMLParser):
