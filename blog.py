@@ -235,7 +235,7 @@ class Lavender_STPI(BaseHandler):
         keyword = self.get_argument("keyword", default=None, strip=False)
         while pages < 20:
             startindex = str(pages)
-            url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
+            url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCgRHK1Q03VBAIH313mrsWVCdjHnTzNUKw&cx=005971756043172606388:edll3ji0ejq"
             result = urllib.urlopen(url).read()
             count = result.count('kind') - 1
             obj_result = tornado.escape.json_decode(result)
