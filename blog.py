@@ -261,14 +261,16 @@ class Lavender_STPI(BaseHandler):
 
                         #找出訴訟名稱裡的原套被告
                         litiname = a.split('訴訟名稱')
+                        liticom = litiname[1].split('提告日期')
+                        c = liticom[0].count("v.")
                         
                     pass
                 pass
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(obj_result)
-        self.write(a)
+        data = tornado.escape.json_encode(c)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
