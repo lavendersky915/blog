@@ -233,7 +233,7 @@ class Lavender_STPI(BaseHandler):
         w = unicode('告', 'utf-8')
         name = unicode('訴訟名稱', 'utf-8')
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while pages < 20:
+        while pages < 50:
             startindex = str(pages)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
             result = urllib.urlopen(url).read()
