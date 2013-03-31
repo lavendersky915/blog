@@ -232,7 +232,7 @@ class Lavender_STPI(BaseHandler):
         w = unicode('告', 'utf-8')
 
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while pages < 20:
+        while pages < 10:
             startindex = str(pages)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCSGM0fArmZcWnu2GD2ZHG_tGX3mQl9rCI&cx=005971756043172606388:edll3ji0ejq"
             result = urllib.urlopen(url).read()
@@ -246,8 +246,8 @@ class Lavender_STPI(BaseHandler):
                 if  w in obj_result['items'][x]['title']:
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
-                    #links = str(test)
-                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=7281"
+                    links = str(test)
+                    aa = aa+ links + "<br>"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -280,7 +280,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(length)
-        self.write(a)
+        self.write(aa)
     
 
 class MLStripper(HTMLParser):
