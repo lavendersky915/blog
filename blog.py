@@ -221,7 +221,8 @@ class GoogleHandler(BaseHandler):
 
 class Lavender_STPI(BaseHandler):
     def get(self):
-         #宣告區
+        #宣告區
+        contents = ""
         pages = 1
         test = ""
         litigation=0
