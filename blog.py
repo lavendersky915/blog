@@ -259,7 +259,7 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
-                        if name in a:
+                        if '訴訟' in a:
                             aa = "y"
                          pass
                         
