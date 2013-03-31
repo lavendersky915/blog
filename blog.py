@@ -243,7 +243,7 @@ class Lavender_STPI(BaseHandler):
                 litigation = litigation+1
                 test = obj_result['items'][x]['link']
                 links = str(test)
-                
+                linka = linka + links + "<br>"
                 crl = pycurl.Curl()
                 crl.setopt(pycurl.VERBOSE,1)
                 crl.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -253,9 +253,22 @@ class Lavender_STPI(BaseHandler):
                 crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                 crl.perform()
                 a = crl.fp.getvalue()
-                linka = linka + a + "<br>"
 
-                
+                #找出訴訟名稱裡的原套被告
+                litiname = a.split('訴訟名稱')
+                liticom = litiname[1].split('提告日期')
+                c = liticom[0].count("v.")
+                if c == 1:
+                    twocom = liticom[0].split('v.') 
+                    p.append(twocom[0])
+                    d.append(twocom[1])
+                    two = "原告" + p[0] + "被告" + d[0]
+                pass
+
+                detemp = litiname[1].split('被告')
+                dename = detemp[1].split('案號')
+                decom = dename[0].split('<BR>')
+                length = len(decom)
 
             pass
         pass
