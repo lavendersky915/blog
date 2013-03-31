@@ -234,7 +234,7 @@ class Lavender_STPI(BaseHandler):
         w = unicode('告', 'utf-8')
         name = unicode('訴訟名稱', 'utf-8')
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while pages < 10:
+        while pages < 20:
             startindex = str(pages)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
             result = urllib.urlopen(url).read()
@@ -259,29 +259,28 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
+                        contents = contents + strip_tags(a)
+                        # if '訴訟名稱' in contents:
+                        #     check = "y"
+                        # pass
                         
-                        if '訴訟名稱' in a:
-                            check = "y"
-                        pass
-                        
-                        #找出訴訟名稱裡的原套被告
-                        if check == "y":
-                            contents = contents + strip_tags(a)
-                            # litiname = contents.split('訴訟名稱')
-                            # liticom = litiname[1].split('提告日期')
-                            # c = liticom[0].count("v.")
-                            # if c == 1:
-                            #     twocom = liticom[0].split('v.') 
-                            #     p.append(twocom[0])
-                            #     d.append(twocom[1])
-                            #     two = "原告" + p[0] + "被告" + d[0] + "<br>"
-                            #     detemp = litiname[1].split('被告')
-                            #     dename = detemp[1].split('案號')
-                            #     decom = dename[0].split('<BR>')
-                            #     length = len(decom)
-                            # pass
-                            check = "n"           
-                        pass
+                        # #找出訴訟名稱裡的原套被告
+                        # if check == "y":
+                        #     litiname = contents.split('訴訟名稱')
+                        #     liticom = litiname[1].split('提告日期')
+                        #     c = liticom[0].count("v.")
+                        #     if c == 1:
+                        #         twocom = liticom[0].split('v.') 
+                        #         p.append(twocom[0])
+                        #         d.append(twocom[1])
+                        #         two = "原告" + p[0] + "被告" + d[0] + "<br>"
+                        #         detemp = litiname[1].split('被告')
+                        #         dename = detemp[1].split('案號')
+                        #         decom = dename[0].split('<BR>')
+                        #         length = len(decom)
+                        #     pass
+                        #     check = "n"           
+                        # pass
                                      
                     pass
                 pass
