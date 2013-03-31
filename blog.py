@@ -234,7 +234,7 @@ class Lavender_STPI(BaseHandler):
         p = []
         d = []
         w = unicode('告', 'utf-8')
-        name = unicode('訴訟名稱', 'utf-8')
+        name = unicode('訴', 'utf-8')
 
         #找出訴訟並紀錄
         for x in xrange(0,count):
