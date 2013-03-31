@@ -261,9 +261,8 @@ class Lavender_STPI(BaseHandler):
                         a = crl.fp.getvalue()
 
                         #找出訴訟名稱裡的原套被告
-                        if name not in a:
-                            aa = "y"
-                        pass    
+                        a.find('訴')
+                            
                         
 
                         
@@ -273,7 +272,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(aa)
-        self.write(aa)
+        self.write(a.find('訴'))
     
 
 class MLStripper(HTMLParser):
