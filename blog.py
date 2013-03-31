@@ -182,7 +182,7 @@ class GoogleHandler(BaseHandler):
         assarray = []
         page = 1
         linkall =""
-        assgtable = "<table><tr>assignees</tr>"
+        assgtable = ""
         keyword = self.get_argument("keyword", default=None, strip=False)
         while page < 10:
             index = str(page)
@@ -210,13 +210,12 @@ class GoogleHandler(BaseHandler):
                     arr = array[1].split('Primary')
                     ass = arr[0].split(':')
                     assarray.append(ass[1])
-                    assgtable = assgtable + "<tr>" + ass[1] + "</tr>"
+                    assgtable = assgtable + ass[1] + "<br>"
                     leng = len(assarray)
                 pass
             pass
             page = page + 10
         pass
-        assgtable = assgtable + "</table>"
         data = tornado.escape.json_encode(leng)
         #self.render("google.html", entries="test")
         self.write(assgtable)
