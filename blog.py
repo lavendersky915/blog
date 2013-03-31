@@ -227,7 +227,7 @@ class Lavender_STPI(BaseHandler):
         litigation=0
         two =""
         length =""
-        aa = "y"
+        aa = "n"
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -248,7 +248,7 @@ class Lavender_STPI(BaseHandler):
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
                     #links = str(test)
-                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=6669"
+                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=5657"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -260,9 +260,9 @@ class Lavender_STPI(BaseHandler):
                         crl.perform()
                         a = crl.fp.getvalue()
                         aa = str(a)
-                        if '訴訟' not in a:
-                            aaa = "n"
-                            pass
+                        if name in a:
+                            aaa = "y"
+                         pass
                         
                         #找出訴訟名稱裡的原套被告
                         # litiname = a.split('訴訟名稱')
