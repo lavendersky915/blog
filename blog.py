@@ -230,6 +230,7 @@ class Lavender_STPI(BaseHandler):
         alls = ""
         p = []
         d = []
+        decom = []
         w = unicode('告', 'utf-8')
 
         keyword = self.get_argument("keyword", default=None, strip=False)
@@ -280,8 +281,8 @@ class Lavender_STPI(BaseHandler):
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(startindex)
-        self.write(startindex)
+        data = tornado.escape.json_encode(length)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
