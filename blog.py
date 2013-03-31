@@ -229,6 +229,7 @@ class Lavender_STPI(BaseHandler):
         length =""
         p = []
         d = []
+        decom = []
         w = unicode('告', 'utf-8')
 
         keyword = self.get_argument("keyword", default=None, strip=False)
