@@ -227,7 +227,7 @@ class Lavender_STPI(BaseHandler):
         litigation=0
         two =""
         length =""
-        aa = ""
+        aa = "y"
         p = []
         d = []
         w = unicode('告', 'utf-8')
