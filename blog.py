@@ -259,11 +259,8 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
-
-                        if name in a:
-                            aa = "y"
-                        else:
-                            aa = "n"    
+                        aa = str(a)
+                        aaa = aa.find("名")   
                         
                         #找出訴訟名稱裡的原套被告
                         # litiname = a.split('訴訟名稱')
