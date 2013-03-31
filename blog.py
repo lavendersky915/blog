@@ -260,7 +260,7 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
-                        contents = strip_tags(ans.prettify())
+                        contents = strip_tags(a)
                         if '訴訟名稱' in contents:
                             check = "y"
                         pass
