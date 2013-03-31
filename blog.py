@@ -230,6 +230,7 @@ class Lavender_STPI(BaseHandler):
         test = ""
         litigation=0
         two =""
+        length =""
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -272,8 +273,8 @@ class Lavender_STPI(BaseHandler):
             pass
             pass
 
-        data = tornado.escape.json_encode(a)
-        self.write(a)
+        data = tornado.escape.json_encode(length)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
