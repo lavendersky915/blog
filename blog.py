@@ -221,12 +221,8 @@ class GoogleHandler(BaseHandler):
 
 class Lavender_STPI(BaseHandler):
     def get(self):
-        keyword = self.get_argument("keyword", default=None, strip=False)
-        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:edll3ji0ejq"
-        result = urllib.urlopen(url).read()
-        count = result.count('kind') - 1
-        obj_result = tornado.escape.json_decode(result)
-        #宣告區
+         #宣告區
+        pages = 1
         test = ""
         litigation=0
         two =""
@@ -234,7 +230,13 @@ class Lavender_STPI(BaseHandler):
         p = []
         d = []
         w = unicode('告', 'utf-8')
-        name = unicode('訴訟名稱', 'utf-8')
+
+        keyword = self.get_argument("keyword", default=None, strip=False)
+        url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&key=AIzaSyCyj6LcvbjCciGMmt9Vq2UXUfShev_IpWM&cx=005971756043172606388:edll3ji0ejq"
+        result = urllib.urlopen(url).read()
+        count = result.count('kind') - 1
+        obj_result = tornado.escape.json_decode(result)
+
 
         #找出訴訟並紀錄
         for x in xrange(0,count):
