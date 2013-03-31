@@ -234,7 +234,7 @@ class Lavender_STPI(BaseHandler):
         w = unicode('告', 'utf-8')
         name = unicode('訴訟名稱', 'utf-8')
         keyword = self.get_argument("keyword", default=None, strip=False)
-        while pages < 20:
+        while pages < 10:
             startindex = str(pages)
             url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCCItvrbtKb0mxoRLIHCzeIgzwjiDPPu-s&cx=005971756043172606388:edll3ji0ejq"
             result = urllib.urlopen(url).read()
@@ -259,13 +259,14 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
-                        contents = strip_tags(a)
-                        if '訴訟名稱' in contents:
+                        
+                        if '訴訟名稱' in a:
                             check = "y"
                         pass
                         
                         #找出訴訟名稱裡的原套被告
                         if check == "y":
+                            contents = strip_tags(a)
                             litiname = contents.split('訴訟名稱')
                             
                             check = "n"           
