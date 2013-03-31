@@ -256,7 +256,7 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(pycurl.URL, links)
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
-                        a = a+ crl.fp.getvalue()
+                        a = crl.fp.getvalue()
 
                         
                     pass
