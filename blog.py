@@ -221,8 +221,7 @@ class GoogleHandler(BaseHandler):
 
 class Lavender_STPI(BaseHandler):
     def get(self):
-        #宣告區
-        contents = ""
+         #宣告區
         pages = 1
         test = ""
         litigation=0
@@ -259,36 +258,35 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
-                        contents = contents + strip_tags(a)
-                        # if '訴訟名稱' in contents:
-                        #     check = "y"
-                        # pass
+                        if '訴訟名稱' in a:
+                            check = "y"
+                        pass
                         
-                        # #找出訴訟名稱裡的原套被告
-                        # if check == "y":
-                        #     litiname = contents.split('訴訟名稱')
-                        #     liticom = litiname[1].split('提告日期')
-                        #     c = liticom[0].count("v.")
-                        #     if c == 1:
-                        #         twocom = liticom[0].split('v.') 
-                        #         p.append(twocom[0])
-                        #         d.append(twocom[1])
-                        #         two = "原告" + p[0] + "被告" + d[0] + "<br>"
-                        #         detemp = litiname[1].split('被告')
-                        #         dename = detemp[1].split('案號')
-                        #         decom = dename[0].split('<BR>')
-                        #         length = len(decom)
-                        #     pass
-                        #     check = "n"           
-                        # pass
+                        #找出訴訟名稱裡的原套被告
+                        if check == "y":
+                            litiname = a.split('訴訟名稱')
+                            liticom = litiname[1].split('提告日期')
+                            c = liticom[0].count("v.")
+                            if c == 1:
+                                twocom = liticom[0].split('v.') 
+                                p.append(twocom[0])
+                                d.append(twocom[1])
+                                two = "原告" + p[0] + "被告" + d[0] + "<br>"
+                                detemp = litiname[1].split('被告')
+                                dename = detemp[1].split('案號')
+                                decom = dename[0].split('<BR>')
+                                length = len(decom)
+                            pass
+                            check = "n"           
+                        pass
                                      
                     pass
                 pass
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(contents)
-        self.write(contents)
+        data = tornado.escape.json_encode(length)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
