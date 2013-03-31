@@ -247,8 +247,7 @@ class Lavender_STPI(BaseHandler):
                 if  w in obj_result['items'][x]['title']:
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
-                    #links = str(test)
-                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=6669"
+                    links = str(test)
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
