@@ -268,8 +268,8 @@ class Lavender_STPI(BaseHandler):
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(obj_result)
-        self.write(liticom[0])
+        data = tornado.escape.json_encode(litiname[1])
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
