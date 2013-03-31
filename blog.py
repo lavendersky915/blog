@@ -242,7 +242,7 @@ class Lavender_STPI(BaseHandler):
                 litigation = litigation+1
                 test = obj_result['items'][x]['link']
                 links = str(test)
-                if link not None:
+                if links not None:
                     crl = pycurl.Curl()
                     crl.setopt(pycurl.VERBOSE,1)
                     crl.setopt(pycurl.FOLLOWLOCATION, 1)
