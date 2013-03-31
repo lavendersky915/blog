@@ -228,6 +228,7 @@ class Lavender_STPI(BaseHandler):
         two =""
         length =""
         check = "n"
+        l = ""
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -270,7 +271,7 @@ class Lavender_STPI(BaseHandler):
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(length)
+        data = tornado.escape.json_encode(l)
         self.write(l)
     
 
