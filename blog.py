@@ -231,7 +231,7 @@ class Lavender_STPI(BaseHandler):
         d = []
         aa = ""
         w = unicode('告', 'utf-8')
-        name = unicode('訴訟名稱', 'utf-8')
+        name = unicode('名', 'utf-8')
         keyword = self.get_argument("keyword", default=None, strip=False)
         while pages < 20:
             startindex = str(pages)
