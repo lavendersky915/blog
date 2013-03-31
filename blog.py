@@ -260,7 +260,7 @@ class Lavender_STPI(BaseHandler):
                         crl.perform()
                         a = crl.fp.getvalue()
                         aa = str(a)
-                        if name not in a:
+                        if '訴' in a:
                             aaa = "n"
                             pass
                         
