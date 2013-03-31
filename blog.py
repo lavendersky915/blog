@@ -263,19 +263,7 @@ class Lavender_STPI(BaseHandler):
                         litiname = a.split('訴訟名稱')
                         liticom = litiname[1].split('提告日期')
                         if 'v.' in liticom[0]:
-                            c = liticom[0].count("v.")
-
-                            if c == 1:
-                                twocom = liticom[0].split('v.') 
-                                p.append(twocom[0])
-                                d.append(twocom[1])
-                                two = "原告" + p[0] + "被告" + d[0]
-                            pass
-
-                            detemp = litiname[1].split('被告')
-                            dename = detemp[1].split('案號')
-                            decom = dename[0].split('<BR>')
-                            length = len(decom)
+                            c = "y"
                         pass
                     pass
                 pass
@@ -283,7 +271,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(obj_result)
-        self.write(a)
+        self.write(c)
     
 
 class MLStripper(HTMLParser):
