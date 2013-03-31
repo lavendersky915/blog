@@ -227,7 +227,7 @@ class Lavender_STPI(BaseHandler):
         litigation=0
         two =""
         length =""
-        aa = "n"
+        aaa = "y"
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -248,7 +248,7 @@ class Lavender_STPI(BaseHandler):
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
                     #links = str(test)
-                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=5657"
+                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=6669"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -259,9 +259,10 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
+                        aa = str(a)
                         if '訴訟' in a:
-                            aa = "y"
-                         pass
+                            aaa = "n"
+                            pass
                         
                         #找出訴訟名稱裡的原套被告
                         # litiname = a.split('訴訟名稱')
@@ -285,7 +286,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(a)
-        self.write(aa)
+        self.write(aaa)
     
 
 class MLStripper(HTMLParser):
