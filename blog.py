@@ -277,7 +277,7 @@ class Lavender_STPI(BaseHandler):
             pass
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(length)
+        data = tornado.escape.json_encode(litiname[1])
         self.write(litiname[1])
     
 
