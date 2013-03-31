@@ -276,7 +276,8 @@ class Lavender_STPI(BaseHandler):
                                 dename = detemp[1].split('案號')
                                 decom = dename[0].split('<BR>')
                                 length = len(decom)
-                            pass           
+                            pass
+                            check = "n"           
                         pass
                                      
                     pass
