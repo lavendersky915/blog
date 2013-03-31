@@ -235,11 +235,12 @@ class Lavender_STPI(BaseHandler):
         keyword = self.get_argument("keyword", default=None, strip=False)
         while pages < 50:
             startindex = str(pages)
+            url = "https://www.googleapis.com/customsearch/v1?q="+keyword+"&start="+startindex+"&key=AIzaSyCSGM0fArmZcWnu2GD2ZHG_tGX3mQl9rCI&cx=005971756043172606388:edll3ji0ejq"
             
             pages = pages + 10
         pass
-        data = tornado.escape.json_encode(startindex)
-        self.write(startindex)
+        data = tornado.escape.json_encode(url)
+        self.write(url)
     
 
 class MLStripper(HTMLParser):
