@@ -247,7 +247,7 @@ class Lavender_STPI(BaseHandler):
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
                     #links = str(test)
-                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=5728"
+                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=7281"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -268,12 +268,13 @@ class Lavender_STPI(BaseHandler):
                             p.append(twocom[0])
                             d.append(twocom[1])
                             two = "原告" + p[0] + "被告" + d[0]
+                            detemp = litiname[1].split('被告')
+                            dename = detemp[1].split('案號')
+                            decom = dename[0].split('<BR>')
+                            length = len(decom)
                         pass
 
-                        detemp = litiname[1].split('被告')
-                        dename = detemp[1].split('案號')
-                        decom = dename[0].split('<BR>')
-                        length = len(decom)
+                        
                     pass
                 pass
             pass
