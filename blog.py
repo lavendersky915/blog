@@ -280,11 +280,10 @@ class Lavender_STPI(BaseHandler):
                                 dename = detemp[1].split('案號')
                                 if 'BR' in dename[0]:
                                     decom = dename[0].split('<BR>')
-                                    length = len(decom)
+                                    
                                 pass
                                 if 'br' in dename[0]:
                                     decom = dename[0].split('<br>')
-                                    length = len(decom)
                                 pass
                                 
                             pass
@@ -296,6 +295,7 @@ class Lavender_STPI(BaseHandler):
             pass
             pages = pages + 10
         pass
+        length = len(decom)
         data = tornado.escape.json_encode(length)
         self.write(data)
     
