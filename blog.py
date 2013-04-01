@@ -226,6 +226,7 @@ class Lavender_STPI(BaseHandler):
         pages = 1
         test = ""
         litigation=0
+        contents = ""
         two =""
         length =""
         check = "n"
@@ -260,13 +261,14 @@ class Lavender_STPI(BaseHandler):
                         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
                         crl.perform()
                         a = crl.fp.getvalue()
+                        contents = strip_tags(a)
                         if '訴訟名稱' in a:
                             check = "y"
                         pass
                         
                         #找出訴訟名稱裡的原套被告
                         if check == "y":
-                            litiname = a.split('訴訟名稱')
+                            litiname = contents.split('訴訟名稱')
                             liticom = litiname[1].split('提告日期')
                             c = liticom[0].count("v.")
                             if c == 1:
