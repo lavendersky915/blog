@@ -230,6 +230,7 @@ class Lavender_STPI(BaseHandler):
         two =""
         length =""
         check = "n"
+        info = []
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -275,6 +276,7 @@ class Lavender_STPI(BaseHandler):
                                 twocom = liticom[0].split('v.') 
                                 p.append(twocom[0])
                                 d.append(twocom[1])
+                                info={twocom[0]:[twocom[1]]}
                                 two = "原告" + p[0] + "被告" + d[0] + "<br>"
                                 detemp = litiname[1].split('被告')
                                 dename = detemp[1].split('案號')
@@ -297,7 +299,7 @@ class Lavender_STPI(BaseHandler):
         pass
         length = len(decom)
         data = tornado.escape.json_encode(length)
-        self.write(data)
+        self.write(twocom[0][0])
     
 
 class MLStripper(HTMLParser):
