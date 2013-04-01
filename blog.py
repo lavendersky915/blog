@@ -230,7 +230,6 @@ class Lavender_STPI(BaseHandler):
         two =""
         length =""
         check = "n"
-        info = []
         p = []
         d = []
         w = unicode('告', 'utf-8')
@@ -250,8 +249,8 @@ class Lavender_STPI(BaseHandler):
                 if  w in obj_result['items'][x]['title']:
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
-                    #links = str(test)
-                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=7281"
+                    links = str(test)
+                    #links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=7281"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -276,7 +275,6 @@ class Lavender_STPI(BaseHandler):
                                 twocom = liticom[0].split('v.') 
                                 p.append(twocom[0])
                                 d.append(twocom[1])
-                                info={twocom[0]:[twocom[1]]}
                                 two = "原告" + p[0] + "被告" + d[0] + "<br>"
                                 detemp = litiname[1].split('被告')
                                 dename = detemp[1].split('案號')
@@ -299,7 +297,7 @@ class Lavender_STPI(BaseHandler):
         pass
         length = len(decom)
         data = tornado.escape.json_encode(length)
-        self.write(twocom[0][0])
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
