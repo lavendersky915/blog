@@ -280,9 +280,11 @@ class Lavender_STPI(BaseHandler):
                                 dename = detemp[1].split('案號')
                                 if '<BR>' in detemp[1]:
                                     decom = dename[0].split('<BR>')
+                                    cc = "<BR>"
                                 pass
                                 if '<br>' in detemp[1]:
                                     decom = dename[0].split('<BR>')
+                                    cc = "<br>"
                                 pass
 
                                 length = len(decom)
@@ -296,7 +298,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(length)
-        self.write(decom[0])
+        self.write(cc])
     
 
 class MLStripper(HTMLParser):
