@@ -278,7 +278,13 @@ class Lavender_STPI(BaseHandler):
                                 two = "原告" + p[0] + "被告" + d[0] + "<br>"
                                 detemp = litiname[1].split('被告')
                                 dename = detemp[1].split('案號')
-                                decom = dename[0].split('<BR>')
+                                if '<BR>' in detemp[1]:
+                                    decom = dename[0].split('<BR>')
+                                pass
+                                if '<br>' in detemp[1]:
+                                    decom = dename[0].split('<BR>')
+                                pass
+
                                 length = len(decom)
                             pass
                             check = "n"           
