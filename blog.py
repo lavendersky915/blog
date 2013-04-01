@@ -296,8 +296,8 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         length = len(decom)
-        data = tornado.escape.json_encode(length)
-        self.write(two)
+        data = tornado.escape.json_encode(two)
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
