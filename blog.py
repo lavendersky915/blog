@@ -278,16 +278,15 @@ class Lavender_STPI(BaseHandler):
                                 two = "原告" + p[0] + "被告" + d[0] + "<br>"
                                 detemp = litiname[1].split('被告')
                                 dename = detemp[1].split('案號')
-                                if '<BR>' in detemp[1]:
+                                if 'BR' in dename[0]:
                                     decom = dename[0].split('<BR>')
-                                    cc = "<BR>"
+                                    length = len(decom)
                                 pass
-                                if '<br>' in detemp[1]:
-                                    decom = dename[0].split('<BR>')
-                                    cc = "<br>"
+                                if 'br' in dename[0]:
+                                    decom = dename[0].split('<br>')
+                                    length = len(decom)
                                 pass
-
-                                length = len(decom)
+                                
                             pass
                             check = "n"           
                         pass
@@ -298,7 +297,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(length)
-        self.write(cc])
+        self.write(data)
     
 
 class MLStripper(HTMLParser):
