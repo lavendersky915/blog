@@ -249,8 +249,8 @@ class Lavender_STPI(BaseHandler):
                 if  w in obj_result['items'][x]['title']:
                     litigation = litigation+1
                     test = obj_result['items'][x]['link']
-                    links = str(test)
-                    #links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=6001"
+                    #links = str(test)
+                    links = "http://iknow.stpi.narl.org.tw/Post/Read.aspx?PostID=6001"
                     if links is not None:
                         crl = pycurl.Curl()
                         crl.setopt(pycurl.VERBOSE,1)
@@ -290,7 +290,7 @@ class Lavender_STPI(BaseHandler):
             pages = pages + 10
         pass
         data = tornado.escape.json_encode(length)
-        self.write(data)
+        self.write(litiname[1])
     
 
 class MLStripper(HTMLParser):
