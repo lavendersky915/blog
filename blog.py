@@ -316,11 +316,10 @@ def strip_tags(html):
 
 class TestHandler(BaseHandler):
     def get(self):
-        s = self.db.execute(
-            "INSERT INTO Cache (Ca_keyword) VALUES (%s)",
-            "keyword")
+    self.db.execute(
+        "INSERT INTO Cache (Ca_keyword) VALUES (%s)", "keyword")
 
-    self.write(s)
+    
        
 class ComposeHandler(BaseHandler):
     @tornado.web.authenticated
