@@ -70,6 +70,7 @@ class Application(tornado.web.Application):
             cookie_secret="123456",
             login_url="/auth/login",
             autoescape=None,
+            debug=True
         )
         tornado.web.Application.__init__(self, handlers, **settings)
         # Have one global connection to the blog DB across all handlers
