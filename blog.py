@@ -50,6 +50,7 @@ class Application(tornado.web.Application):
             (r"/", HomeHandler),
             (r"/archive", ArchiveHandler),
             (r"/feed", FeedHandler),
+            (r"/IPPlus", IPPlus),
             (r"/google", GoogleHandler),
             (r"/stpi", Lavender_STPI),
             (r"/test", TestHandler),
@@ -176,6 +177,15 @@ class FeedHandler(BaseHandler):
                                 "DESC LIMIT 10")
         self.set_header("Content-Type", "application/atom+xml")
         self.render("feed.xml", entries=entries)
+
+class IPPlus(BaseHandler):
+    def get(self):
+        id = self.get_argument("keyword", default=None, strip=False)
+        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+                                "DESC LIMIT 10")
+        self.set_header("Content-Type", "application/atom+xml")
+        self.render("feed.xml", entries=entries)
+
 class GoogleHandler(BaseHandler):
     def get(self):
         content = ""
