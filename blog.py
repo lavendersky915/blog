@@ -39,7 +39,7 @@ from HTMLParser import HTMLParser
 from bs4 import BeautifulSoup
 
 define("port", default=8888, help="run on the given port", type=int)
-define("mysql_host", default="140.119.19.71", help="blog database host")
+define("mysql_host", default="127.0.0.1:3306", help="blog database host")
 define("mysql_database", default="blog", help="blog database name")
 define("mysql_user", default="root", help="blog database user")
 define("mysql_password", default="19052260", help="blog database password")
